@@ -1,12 +1,11 @@
 import React from 'react';
-import Example from "./Example";
+import ExampleButton from "./ExampleButton";
 
-function App() {
+const App = () => {
     return (
         <div className="App">
             <div className="container">
-                <div>Hello there</div>
-                <Example />
+                <ExampleButton />
             </div>
         </div>
     );
