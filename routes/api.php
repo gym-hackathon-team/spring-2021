@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,8 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['namespace' => 'Auth', 'prefix' => 'auth'], function() {
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware('auth:api');
+});
+
 Route::group(['namespace' => 'User', 'prefix' => 'user', 'middleware' => 'auth:api'], function() {
-    Route::get('/hey', function () {
-        return "Hey!";
-    });
+    Route::get('/', [UserController::class, 'index'])->name('user.index');
+    Route::get('/{id}', [UserController::class, 'show'])->name('user.show');
+    Route::patch('/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/{id}', [UserController::class, 'delete'])->name('user.delete');
 });
