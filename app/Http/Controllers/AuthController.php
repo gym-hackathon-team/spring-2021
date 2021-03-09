@@ -10,9 +10,9 @@ use App\Models\User;
 
 class AuthController extends Controller {
     public function login( AuthLoginRequest $request ) {
-        $user = User::where( 'email', $request->input( 'email' ) )->first();
+        $user = User::where( 'email', $request->input( 'email' ) )->firstOrFail();
 
-        if ( $user && ! Hash::check( $request->input( 'password' ), $user->password ) ) {
+        if ( ! Hash::check( $request->input( 'password' ), $user->password ) ) {
             return response( 'Incorrect Data', 403 );
         }
 
@@ -34,7 +34,7 @@ class AuthController extends Controller {
         if ($user) {
             return response( $user, 201 );
         } else {
-            return response()->json( 'Something Wrong', 400 );
+            return response( 'Something Wrong', 400 );
         }
     }
 
@@ -43,6 +43,6 @@ class AuthController extends Controller {
             Auth::user()->token()->revoke();
         }
 
-        return response()->json( 'Logged Out' );
+        return response( 'Logged Out' );
     }
 }
