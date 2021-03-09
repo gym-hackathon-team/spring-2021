@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Http\Requests\FormRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
 class AuthLoginRequest extends FormRequest
 {
