@@ -3,13 +3,14 @@ import {Redirect, useHistory} from "react-router-dom";
 import { DefaultButton } from "@fluentui/react";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
-
+import * as Cookies from "js-cookie";
 
 import { Icon } from '@fluentui/react/lib/Icon';
 const LogOutIcon = () => <Icon iconName="SignOut" />;
+
 async function log_out()
 {
-    const token = localStorage.getItem('access_token');
+    const token = Cookies.get('access_token');
 
     let response = await fetch('/api/auth/logout', {
         method: 'GET',
@@ -21,7 +22,8 @@ async function log_out()
     });
     if (response.ok) {
 
-        localStorage.removeItem('access_token');
+        Cookies.remove('access_token');
+        Cookies.remove('user_id');
         return true;
     }
     else
