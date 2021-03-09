@@ -3,51 +3,44 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UserDeleteRequest;
-use App\Http\Requests\User\UserShowRequest;
 use App\Http\Requests\User\UserUpdateRequest;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return "index";
-    }
-
-    /**
      * Display the specified resource.
      *
-     * @param UserShowRequest $request
-     * @return \Illuminate\Http\Response
+     * @param $id
+     *
+     * @return JsonResponse
      */
-    public function show(UserShowRequest $request)
-    {
-        return "show";
+    public function show($id): JsonResponse {
+        $user = User::find($id);
+
+        if ($user) {
+            return response()->json( $user );
+        } else {
+            return response()->json( "Not Found", 404 );
+        }
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param UserUpdateRequest $request
-     * @return \Illuminate\Http\Response
      */
     public function update(UserUpdateRequest $request)
     {
-        return "update";
-    }
+        $user = Auth::user();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param UserDeleteRequest $user
-     * @return \Illuminate\Http\Response
-     */
-    public function delete(UserDeleteRequest $user)
-    {
-        return "Delete";
+        $data = $request->all();
+        $result = $user->fill($data)->save();
+
+        if ($result) {
+            return response()->json( $user );
+        } else {
+            return response()->json( "Saving Error", 400 );
+        }
     }
 }

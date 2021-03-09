@@ -23,8 +23,6 @@ Route::group(['namespace' => 'Auth', 'prefix' => 'auth'], function() {
 });
 
 Route::group(['namespace' => 'User', 'prefix' => 'user', 'middleware' => 'auth:api'], function() {
-    Route::get('/', [UserController::class, 'index'])->name('user.index');
     Route::get('/{id}', [UserController::class, 'show'])->name('user.show');
-    Route::patch('/{id}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/{id}', [UserController::class, 'delete'])->name('user.delete');
+    Route::post('/', [UserController::class, 'update'])->name('user.update');
 });

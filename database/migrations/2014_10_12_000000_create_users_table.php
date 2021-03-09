@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->boolean('email_verified')->default(false);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
