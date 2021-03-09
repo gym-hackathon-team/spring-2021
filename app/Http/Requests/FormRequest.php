@@ -1,23 +1,21 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests;
 
-use App\Http\Requests\FormRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Foundation\Http\FormRequest as LaravelFormRequest;
 
-class AuthLoginRequest extends FormRequest
-{
+abstract class FormRequest extends LaravelFormRequest {
+
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
-    public function rules()
-    {
-        return [
-            'email' => 'required|email',
-            'password' => 'required|string|min:6|max:20',
-        ];
-    }
+    abstract public function rules();
 
     /**
      * Handle a failed validation attempt.
