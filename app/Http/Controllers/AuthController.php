@@ -10,7 +10,11 @@ use App\Models\User;
 
 class AuthController extends Controller {
     public function login( AuthLoginRequest $request ) {
-        $user = User::where( 'email', $request->input( 'email' ) )->firstOrFail();
+        $user = User::where( 'email', $request->input( 'email' ) )->first();
+
+        if ( ! $user) {
+            return response( 'Incorrect Data', 403 );
+        }
 
         if ( ! Hash::check( $request->input( 'password' ), $user->password ) ) {
             return response( 'Incorrect Data', 403 );
