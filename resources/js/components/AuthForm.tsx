@@ -10,7 +10,8 @@ async function sign_in(email:string,password:string)
     let response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
+            'Accept' : 'application/json',
         },
         body: JSON.stringify(data),
     });

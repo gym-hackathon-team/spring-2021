@@ -10,7 +10,8 @@ async function register(email: string, password: string, name: string) {
     let response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
+            'Accept' : 'application/json',
         },
         body: JSON.stringify(data),
     });
