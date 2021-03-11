@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\AuthLoginRequest;
 use App\Http\Requests\Auth\AuthRegisterRequest;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -13,11 +14,11 @@ class AuthController extends Controller {
         $user = User::where( 'email', $request->input( 'email' ) )->first();
 
         if ( ! $user) {
-            return response( 'Incorrect Data', 403 );
+            return response( ['message' => 'Incorrect Data'], 403 );
         }
 
         if ( ! Hash::check( $request->input( 'password' ), $user->password ) ) {
-            return response( 'Incorrect Data', 403 );
+            return response( ['message' => 'Incorrect Data'], 403 );
         }
 
         $token = $user->createToken( 'SPA Access', [ '*' ] )->accessToken;
@@ -36,9 +37,10 @@ class AuthController extends Controller {
         $user = User::create( $data );
 
         if ($user) {
+            event(new Registered($user));
             return response( $user, 201 );
         } else {
-            return response( 'Something Wrong', 400 );
+            return response( ['message' => 'Something Wrong'], 400 );
         }
     }
 
@@ -47,6 +49,6 @@ class AuthController extends Controller {
             Auth::user()->token()->revoke();
         }
 
-        return response( 'Logged Out' );
+        return response( ['message' => 'Logged Out'] );
     }
 }

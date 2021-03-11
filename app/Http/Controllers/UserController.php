@@ -21,12 +21,16 @@ class UserController extends Controller
         if ($user) {
             return response( $user );
         } else {
-            return response( "Not Found", 404 );
+            return response( ['message' => 'Not Found'], 404 );
         }
     }
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param UserUpdateRequest $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function update(UserUpdateRequest $request)
     {
@@ -38,7 +42,7 @@ class UserController extends Controller
         if ($result) {
             return response( $user );
         } else {
-            return response( "Saving Error", 400 );
+            return response( ['message' => 'Saving Error'], 400 );
         }
     }
 }
