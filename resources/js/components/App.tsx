@@ -2,20 +2,28 @@ import React, {useState,useEffect} from "react";
 import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import Auth from "../pages/Auth";
 import Dashboard from "../pages/Dashboard";
+import * as Cookies from "js-cookie";
 
 async function checkAuth() {
-    const token = localStorage.getItem('access_token');
-    if (token == null) {
+    const token = Cookies.get('access_token');
+    const user_id=Cookies.get('user_id');
+    if (token == null || user_id==null) {
         return false;
     }
-    let response = await fetch('/api/user/', {
+    let response = await fetch(`/api/user/${user_id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Accept' : 'application/json',
         },
 
     });
+    if (!response.ok)
+    {
+        Cookies.remove('access_token');
+        Cookies.remove('user_id');
+    }
     return response.ok;
 }
 

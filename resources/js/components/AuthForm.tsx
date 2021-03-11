@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {useState} from "react";
 import {NavLink, Redirect} from "react-router-dom";
 import {DefaultButton, DefaultEffects, TextField,Link} from "@fluentui/react";
-
+import * as Cookies from "js-cookie";
 async function sign_in(email:string,password:string)
 {
     let data={
@@ -10,13 +10,16 @@ async function sign_in(email:string,password:string)
     let response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
+            'Accept' : 'application/json',
         },
         body: JSON.stringify(data),
     });
     if (response.status==200) {
         let result = await response.json();
-        localStorage.setItem('access_token', result.access_token);
+        //localStorage.setItem('access_token', result.access_token);
+        Cookies.set('access_token',result.access_token);
+        Cookies.set('user_id',String(result.id));
         return true;
     }
     else
