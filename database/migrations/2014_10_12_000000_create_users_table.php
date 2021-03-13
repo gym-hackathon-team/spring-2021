@@ -21,6 +21,10 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->boolean('email_verified')->default(false);
 
+            $table->string('sex')->default('not selected');
+            $table->string('bio')->nullable();
+            $table->timestamp('birth_day')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });
