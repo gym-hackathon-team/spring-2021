@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\CodeResetPasswordNotification;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -67,5 +68,16 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->forceFill([
             'email_verified' => true,
         ])->save();
+    }
+
+    /**
+     * Send a password reset notification to the user.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CodeResetPasswordNotification($token));
     }
 }

@@ -30,9 +30,6 @@ Route::group(['prefix' => 'verification'], function() {
 
 Route::group(['prefix' => 'password', 'middleware' => 'guest'], function() {
     Route::post('/email', [PasswordController::class, 'email'])->name('password.email');
-
-    // TODO Delete this route before canceling redirect to it in CanResetPassword
-    Route::get('/confirm/{token}', [PasswordController::class, 'reset'])->name('password.reset');
     Route::post('/update', [PasswordController::class, 'update'])->name('password.update');
 });
 

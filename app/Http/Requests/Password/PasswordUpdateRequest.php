@@ -16,7 +16,7 @@ class PasswordUpdateRequest extends FormRequest
         return [
             'token' => 'required',
             'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|string|min:6|max:20|confirmed',
         ];
     }
 }
