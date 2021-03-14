@@ -8,27 +8,24 @@ use Illuminate\Http\Request;
 
 class VerificationController extends Controller
 {
-    public function notice() {
-        return response( ['message' => 'Email not verified'] );
-    }
-
-    public function verify(Request $request) {
+    public function verify(Request $request)
+    {
         $user = User::find($request->route('id'));
 
-        if ( ! $user ) {
-            return response( [ 'message' => 'User not found' ] );
+        if ( ! $user) {
+            return response(['message' => 'User not found']);
         }
 
-        if (! hash_equals((string) $request->route('id'), (string) $user->getKey())) {
-            return response( [ 'message' => 'Invalid/Expired url provided' ] );
+        if ( ! hash_equals((string) $request->route('id'), (string) $user->getKey())) {
+            return response(['message' => 'Invalid/Expired url provided.']);
         }
 
-        if (! hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
-            return response( [ 'message' => 'Invalid/Expired url provided' ] );
+        if ( ! hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
+            return response(['message' => 'Invalid/Expired url provided.']);
         }
 
-        if ( $user->hasVerifiedEmail() ) {
-            return response( [ 'message' => 'Email already verified' ] );
+        if ($user->hasVerifiedEmail()) {
+            return response(['message' => 'Email already verified.']);
         }
 
         $user->markEmailAsVerified();
@@ -37,9 +34,10 @@ class VerificationController extends Controller
         return redirect()->route('home');
     }
 
-    public function send( Request $request ) {
+    public function notify(Request $request)
+    {
         $request->user()->sendEmailVerificationNotification();
 
-        return response( ['message' => 'Verification link sent!'] );
+        return response(['message' => 'Verification link sent!']);
     }
 }
