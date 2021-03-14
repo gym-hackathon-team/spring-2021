@@ -1,0 +1,36 @@
+{
+
+        "AuthForm": {
+            "incorrectEmail": "Incorrect email !",
+            "incorrectPassword": "Password must be between 6 and 20 characters !",
+            "textFieldEmail": "email",
+            "textFieldPassword": "password",
+            "textFieldConfirmPassword": "confirm password",
+            "textFieldName": "name",
+            "AlertErrorAuth": "Authorization failed!",
+            "AlertSuccessRegistration": "Account created !",
+            "AlertFailedRegistration": "Registration failed !",
+            "ButtonLogin": "LOGIN",
+            "ButtonRegistration": "CREATE ACCOUNT",
+            "linkCreateAccount": "Create account",
+            "linkLogin": "Login"
+        },
+    "Dashboard": {
+        "header": "Homepage",
+        "textContent": "Content"
+
+    },
+    "Navbar": {
+
+        "text": "Navbar"
+
+    },
+
+    "Header": {
+
+        "text": "Home"
+
+    }
+
+
+}

@@ -1,17 +1,8 @@
 import React, {useEffect} from "react";
 import {useState} from "react";
-import {NavLink, Redirect} from "react-router-dom";
 import {DefaultButton, DefaultEffects, TextField, Link} from "@fluentui/react";
-import {
-    MessageBarButton,
+import {useTranslation} from 'react-i18next';
 
-    Stack,
-    StackItem,
-    MessageBar,
-    MessageBarType,
-    ChoiceGroup,
-    IStackProps,
-} from 'office-ui-fabric-react';
 import * as Cookies from "js-cookie";
 import Alert from "./Alert";
 
@@ -46,6 +37,7 @@ export interface AuthFormProps {
 }
 
 const AuthForm = (props: AuthFormProps) => {
+    const {t, i18n} = useTranslation('common');
     const regEmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
     const [login, setLogin] = useState('');
@@ -74,12 +66,12 @@ const AuthForm = (props: AuthFormProps) => {
     );
     const getLoginErrorMessage = (value: string): string => {
 
-        return regEmail.test(value) || value === '' ? '' : `Incorrect email !`;
+        return regEmail.test(value) || value === '' ? '' : t('AuthForm.incorrectEmail');
     };
 
     const getPasswordErrorMessage = (value: string): string => {
 
-        return value.length >= 6 && value.length <= 20 || value === '' ? '' : `Password must be between 6 and 20 characters !`;
+        return value.length >= 6 && value.length <= 20 || value === '' ? '' : t('AuthForm.incorrectPassword');
     };
 
     const showErrorAlert = (text: string) => {
@@ -107,14 +99,15 @@ const AuthForm = (props: AuthFormProps) => {
             </div>
 
             <Link onClick={props.register} underline>
-                Create account
+                {t('AuthForm.linkCreateAccount')}
             </Link>
             <div className={'auth_text_field'}>
-                <TextField placeholder={"email"} onGetErrorMessage={getLoginErrorMessage}
+                <TextField placeholder={t("AuthForm.textFieldEmail")} onGetErrorMessage={getLoginErrorMessage}
                            deferredValidationTime={500} underlined value={login} onChange={onChangeLogin}/>
             </div>
             <div className={'auth_text_field'}>
-                <TextField placeholder={"password"} onGetErrorMessage={getPasswordErrorMessage} underlined
+                <TextField placeholder={t("AuthForm.textFieldPassword")} onGetErrorMessage={getPasswordErrorMessage}
+                           underlined
                            canRevealPassword type={'password'} value={password}
                            deferredValidationTime={500}
                            onChange={onChangePassword}/>
@@ -126,7 +119,7 @@ const AuthForm = (props: AuthFormProps) => {
                                if (auth) {
                                    props.afterAuth();
                                } else {
-                                   showErrorAlert('Authorization failed!');
+                                   showErrorAlert(t('AuthForm.AlertErrorAuth'));
                                }
 
                                SetAuthorised(auth);
@@ -134,7 +127,7 @@ const AuthForm = (props: AuthFormProps) => {
 
                            }
                            }>
-                LOGIN
+                {t('AuthForm.ButtonLogin')}
             </DefaultButton>
 
 

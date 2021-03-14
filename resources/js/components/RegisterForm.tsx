@@ -3,6 +3,7 @@ import {useState} from "react";
 import {NavLink, Redirect} from "react-router-dom";
 import {DefaultButton, DefaultEffects, Link, TextField} from "@fluentui/react";
 import Alert from "./Alert";
+import {useTranslation} from "react-i18next";
 
 async function register(email: string, password: string, name: string) {
     let data = {
@@ -31,6 +32,8 @@ export interface RegisterFormProps {
 }
 
 const RegisterForm = (props: RegisterFormProps) => {
+    const {t, i18n} = useTranslation('common');
+
     const regEmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
     const [alert, setAlert] = useState({type: 'default', message: ''});
 
@@ -76,12 +79,12 @@ const RegisterForm = (props: RegisterFormProps) => {
 
     const getLoginErrorMessage = (value: string): string => {
 
-        return regEmail.test(value) || value === '' ? '' : `Incorrect email !`;
+        return regEmail.test(value) || value === '' ? '' : t('AuthForm.incorrectEmail');
     };
 
     const getPasswordErrorMessage = (value: string): string => {
 
-        return value.length >= 6 && value.length <= 20 || value === '' ? '' : `Password must be between 6 and 20 characters !`;
+        return value.length >= 6 && value.length <= 20 || value === '' ? '' : t('AuthForm.incorrectPassword');
     };
 
     const showErrorAlert = (text: string) => {
@@ -109,23 +112,23 @@ const RegisterForm = (props: RegisterFormProps) => {
             </div>
 
             <Link onClick={props.login} underline>
-                Login
+                {t('AuthForm.linkLogin')}
             </Link>
             <div className={'auth_text_field'}>
-                <TextField placeholder={"name"} underlined value={name} onChange={onChangeName}/>
+                <TextField placeholder={t('AuthForm.textFieldName')} underlined value={name} onChange={onChangeName}/>
             </div>
             <div className={'auth_text_field'}>
-                <TextField placeholder={"email"} onGetErrorMessage={getLoginErrorMessage}
+                <TextField placeholder={t('AuthForm.textFieldEmail')} onGetErrorMessage={getLoginErrorMessage}
                            deferredValidationTime={500} underlined value={login} onChange={onChangeLogin}/>
             </div>
             <div className={'auth_text_field'}>
-                <TextField placeholder={"password"}
+                <TextField placeholder={t('AuthForm.textFieldPassword')}
                            onGetErrorMessage={getPasswordErrorMessage}
                            deferredValidationTime={500}
                            underlined canRevealPassword type={'password'} value={password} onChange={onChangePassword}/>
             </div>
             <div className={'auth_text_field'}>
-                <TextField placeholder={"confirm password"}
+                <TextField placeholder={t('AuthForm.textFieldConfirmPassword')}
                            onGetErrorMessage={getPasswordErrorMessage}
                            deferredValidationTime={500}
                            underlined canRevealPassword type={'password'} value={passwordConfirm}
@@ -134,21 +137,21 @@ const RegisterForm = (props: RegisterFormProps) => {
             <DefaultButton onClick={async () => {
                 let reg: boolean = await register(login, password, name);
                 if (reg) {
-                    showSuccessAlert('Account created !');
+                    showSuccessAlert(t('AuthForm.AlertSuccessRegistration'));
                     setPasswordConfirm('');
                     setLogin('');
                     setName('');
                     setPassword('');
 
                 } else {
-                    showErrorAlert('Registration failed !');
+                    showErrorAlert(t('AuthForm.AlertFailedRegistration'));
                 }
 
 
             }
             }
                            disabled={!(!(password.length < 6 || password.length > 20) && !(passwordConfirm.length < 6 || passwordConfirm.length > 20) && name !== '' && regEmail.test(login) && password === passwordConfirm)}>
-                CREATE ACCOUNT
+                {t('AuthForm.ButtonRegistration')}
             </DefaultButton>
 
 

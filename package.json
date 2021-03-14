@@ -30,11 +30,13 @@
         "@types/react-redux": "^7.1.16",
         "@types/react-router-dom": "^5.1.7",
         "@uifabric/icons": "^7.5.22",
+        "i18next": "^19.9.2",
         "js-cookie": "^2.2.1",
         "normalize.css": "^8.0.1",
         "office-ui-fabric-react": "^7.164.0",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
+        "react-i18next": "^11.8.10",
         "react-redux": "^7.2.2",
         "react-router-dom": "^5.2.0",
         "redux": "^4.0.5"
