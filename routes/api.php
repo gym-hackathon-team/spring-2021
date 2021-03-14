@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
@@ -22,18 +23,24 @@ Route::group(['prefix' => 'auth'], function() {
     Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('auth.logout');
 });
 
-Route::group(['prefix' => 'email'], function() {
-    Route::get('/email/verify', [VerificationController::class, 'notice'])->middleware('auth:api')->name('verification.notice');
-    Route::get('/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
-    Route::post('/verification-notify', [VerificationController::class, 'send'])->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
+Route::group(['prefix' => 'verification'], function() {
+    Route::get('/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
+    Route::post('/notify', [VerificationController::class, 'notify'])->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
 });
 
-Route::group(['namespace' => 'User', 'prefix' => 'user', 'middleware' => 'auth:api'], function() {
+Route::group(['prefix' => 'password', 'middleware' => 'guest'], function() {
+    Route::post('/email', [PasswordController::class, 'email'])->name('password.email');
+
+    // TODO Delete this route before canceling redirect to it in CanResetPassword
+    Route::get('/confirm/{token}', [PasswordController::class, 'reset'])->name('password.reset');
+    Route::post('/update', [PasswordController::class, 'update'])->name('password.update');
+});
+
+Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function() {
     Route::get('/{id}', [UserController::class, 'show'])->name('user.show');
     Route::post('/', [UserController::class, 'update'])->name('user.update');
-
-    Route::post('/flex', function () {
-        return "Verified Route";
-    })->middleware('verified');
-
 });
+
+Route::get('/flex', function () {
+    return "Flex";
+})->middleware('auth:api');
