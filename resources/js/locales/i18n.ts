@@ -2,11 +2,15 @@ import i18n from "i18next";
 import {initReactI18next} from "react-i18next";
 
 import common_en from './translations/en/common.json'
+import common_ru from './translations/ru/common.json'
 // the translations
 // (tip move them in a JSON file and import them)
 const resources = {
     en: {
         common: common_en               // 'common' is our custom namespace
+    },
+    ru: {
+        common: common_ru               // 'common' is our custom namespace
     }
 
 
