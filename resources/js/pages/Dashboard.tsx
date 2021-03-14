@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import * as Cookies from "js-cookie";
 
 import { Icon } from '@fluentui/react/lib/Icon';
+import {useTranslation} from "react-i18next";
 const LogOutIcon = () => <Icon iconName="SignOut" />;
 
 async function log_out()
@@ -46,11 +47,12 @@ interface DashboardProps
 }
 
 const Dashboard = (props:DashboardProps) => {
+    const {t, i18n} = useTranslation('common');
     const history = useHistory();
     const [auth,setAuth]=useState(props.auth);
     return (auth ? <>
             <div className={'Nav'}>
-                <h1 className={'header'}>Homepage</h1>
+                <h1 className={'header'}>{t('Dashboard.header')}</h1>
                 <DefaultButton onClick={()=>{
                     log_out().then(value=>{
                         if (value)
@@ -63,7 +65,7 @@ const Dashboard = (props:DashboardProps) => {
             </div>
 
         <div className={'content'}>
-            <h3 className={'header'}>Content</h3>
+            <h3 className={'header'}>{t('Dashboard.textContent')}</h3>
         </div>
 
 

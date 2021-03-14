@@ -3,6 +3,7 @@ import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import Auth from "../pages/Auth";
 import Dashboard from "../pages/Dashboard";
 import * as Cookies from "js-cookie";
+import Footer from "./Footer";
 
 async function checkAuth() {
     const token = Cookies.get('access_token');
@@ -36,7 +37,8 @@ const App: React.FunctionComponent = () => {
         })
     },[]);
 
-    return <BrowserRouter>
+    return( <>
+        <BrowserRouter>
         <Switch>
             <Route path="/" exact>
                  <Auth auth={auth} afterAuth={()=>setAuth(true)}/>
@@ -45,7 +47,10 @@ const App: React.FunctionComponent = () => {
                  <Dashboard afterLogOut={()=>setAuth(false)} auth ={auth}/>
             </Route>
         </Switch>
-    </BrowserRouter>;
+    </BrowserRouter>
+            <Footer/>
+        </>
+    );
 }
 
 export default App;
