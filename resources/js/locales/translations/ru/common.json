@@ -1,0 +1,36 @@
+{
+
+        "AuthForm": {
+            "incorrectEmail": "Некорректный email !",
+            "incorrectPassword": "Пароль должен быть от 6 до 20 символов !",
+            "textFieldEmail": "email",
+            "textFieldPassword": "пароль",
+            "textFieldConfirmPassword": "подтверждение пароля",
+            "textFieldName": "имя",
+            "AlertErrorAuth": "Вход не выполнен!",
+            "AlertSuccessRegistration": "Учетная запись создана !",
+            "AlertFailedRegistration": "Регистрация не выполнена !",
+            "ButtonLogin": "ВОЙТИ",
+            "ButtonRegistration": "ЗАРЕГИСТРИРОВАТЬСЯ",
+            "linkCreateAccount": "Зарегистрироваться",
+            "linkLogin": "Войти"
+        },
+    "Dashboard": {
+        "header": "Домашняя страница",
+        "textContent": "Контент"
+
+    },
+    "Navbar": {
+
+        "text": "Навбар"
+
+    },
+
+    "Header": {
+
+        "text": "Домашняя страница"
+
+    }
+
+
+}
