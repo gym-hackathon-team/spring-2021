@@ -7,7 +7,7 @@ import {useTranslation} from "react-i18next";
 
 async function register(email: string, password: string, name: string) {
     let data = {
-        email: email, password: password, name: name
+        email: email, password_confirmation: password,password:password, name: name
     };
     let response = await fetch('/api/auth/register', {
         method: 'POST',
