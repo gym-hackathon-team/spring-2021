@@ -30,14 +30,11 @@ Route::group(['prefix' => 'verification'], function() {
 
 Route::group(['prefix' => 'password', 'middleware' => 'guest'], function() {
     Route::post('/email', [PasswordController::class, 'email'])->name('password.email');
-    Route::post('/update', [PasswordController::class, 'update'])->name('password.update');
+    Route::get('/validate/{user_id}/{code}', [PasswordController::class, 'validation'])->name('password.validate');
+    Route::post('/reset', [PasswordController::class, 'update'])->name('password.update');
 });
 
 Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function() {
     Route::get('/{id}', [UserController::class, 'show'])->name('user.show');
     Route::post('/', [UserController::class, 'update'])->name('user.update');
 });
-
-Route::get('/flex', function () {
-    return "Flex";
-})->middleware('auth:api');
