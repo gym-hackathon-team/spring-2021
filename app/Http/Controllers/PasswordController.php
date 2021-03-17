@@ -18,14 +18,12 @@ class PasswordController extends Controller
      */
     public function email(PasswordEmailRequest $request)
     {
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        $status = Password::sendResetLink($request->only('email'));
 
         if ($status === Password::RESET_LINK_SENT) {
             return response(['message' => __($status)]);
         } else {
-            return response(['message' => 'Sending error.'], 400);
+            return response(['message' => __('passwords.sent_error')], 400);
         }
     }
 
@@ -34,7 +32,7 @@ class PasswordController extends Controller
         $user = User::find($user_id);
 
         if ( ! $user) {
-            return response(['message' => 'User not found.'], 404);
+            return response(['message' => __('passwords.user')], 404);
         }
 
         $status = Password::tokenExists($user, $code);

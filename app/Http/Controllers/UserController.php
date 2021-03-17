@@ -15,20 +15,21 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         $user = User::find($id);
 
         if ($user) {
-            return response( $user );
+            return response($user);
         } else {
-            return response( ['message' => 'Not Found'], 404 );
+            return response(['message' => __('user.show.failed')], 404);
         }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param UserUpdateRequest $request
+     * @param  UserUpdateRequest  $request
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
@@ -36,13 +37,13 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $data = $request->all();
+        $data   = $request->all();
         $result = $user->fill($data)->save();
 
         if ($result) {
-            return response( $user );
+            return response($user);
         } else {
-            return response( ['message' => 'Saving Error'], 400 );
+            return response(['message' => __('user.update.failed')], 400);
         }
     }
 }
