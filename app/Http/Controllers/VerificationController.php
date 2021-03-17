@@ -13,19 +13,19 @@ class VerificationController extends Controller
         $user = User::find($request->route('id'));
 
         if ( ! $user) {
-            return response(['message' => 'User not found']);
+            return response(['message' => __('verification.verify.user_not_found')]);
         }
 
         if ( ! hash_equals((string) $request->route('id'), (string) $user->getKey())) {
-            return response(['message' => 'Invalid/Expired url provided.']);
+            return response(['message' => __('verification.verify.invalid_url')]);
         }
 
         if ( ! hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
-            return response(['message' => 'Invalid/Expired url provided.']);
+            return response(['message' => __('verification.verify.invalid_url')]);
         }
 
         if ($user->hasVerifiedEmail()) {
-            return response(['message' => 'Email already verified.']);
+            return response(['message' => __('verification.verify.already_verified')]);
         }
 
         $user->markEmailAsVerified();
@@ -38,6 +38,6 @@ class VerificationController extends Controller
     {
         $request->user()->sendEmailVerificationNotification();
 
-        return response(['message' => 'Verification link sent!']);
+        return response(['message' => __('verification.notify.sent')]);
     }
 }
