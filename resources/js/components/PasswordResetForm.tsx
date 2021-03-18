@@ -3,9 +3,11 @@ import React, {useState} from "react";
 import {DefaultButton, DefaultEffects, Link, TextField} from "@fluentui/react";
 import Alert from "./Alert";
 import * as Cookies from "js-cookie";
+import i18next from "i18next";
 
 
 async function sendEmail(email: string) {
+
     let data = {
         email: email
     };
@@ -14,6 +16,7 @@ async function sendEmail(email: string) {
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
             'Accept': 'application/json',
+            'Content-Language': i18next.language
         },
         body: JSON.stringify(data),
     });
@@ -28,11 +31,14 @@ async function sendEmail(email: string) {
 
 async function validate(user_id: number, token: string) {
 
+
     let response = await fetch(`/api/password/validate/${user_id}/${token}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
             'Accept': 'application/json',
+            'Content-Language': i18next.language
+
         },
 
     });
@@ -46,6 +52,7 @@ async function validate(user_id: number, token: string) {
 }
 
 async function resetPassword(email: string, password: string, token: string) {
+
     let data = {
         email: email,
         password: password,
@@ -57,6 +64,8 @@ async function resetPassword(email: string, password: string, token: string) {
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
             'Accept': 'application/json',
+            'Content-Language': i18next.language
+
         },
         body: JSON.stringify(data),
     });

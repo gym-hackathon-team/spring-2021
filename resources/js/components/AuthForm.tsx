@@ -5,17 +5,21 @@ import {useTranslation} from 'react-i18next';
 
 import * as Cookies from "js-cookie";
 import Alert from "./Alert";
+import i18next from "i18next";
 
 
 async function sign_in(email: string, password: string) {
     let data = {
         email: email, password: password
     };
+
+
     let response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
             'Accept': 'application/json',
+            'Content-Language': i18next.language
         },
         body: JSON.stringify(data),
     });

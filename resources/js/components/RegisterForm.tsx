@@ -4,6 +4,7 @@ import {NavLink, Redirect} from "react-router-dom";
 import {DefaultButton, DefaultEffects, Link, TextField} from "@fluentui/react";
 import Alert from "./Alert";
 import {useTranslation} from "react-i18next";
+import i18next from "i18next";
 
 async function register(email: string, password: string, name: string) {
     let data = {
@@ -14,6 +15,7 @@ async function register(email: string, password: string, name: string) {
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
             'Accept': 'application/json',
+            'Content-Language': i18next.language
         },
         body: JSON.stringify(data),
     });
@@ -33,7 +35,7 @@ export interface RegisterFormProps {
 
 const RegisterForm = (props: RegisterFormProps) => {
     const {t, i18n} = useTranslation('common');
-
+    console.log(i18n.language);
     const regEmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
     const [alert, setAlert] = useState({type: 'default', message: ''});
 

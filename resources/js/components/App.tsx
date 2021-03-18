@@ -4,8 +4,12 @@ import Auth from "../pages/Auth";
 import Dashboard from "../pages/Dashboard";
 import * as Cookies from "js-cookie";
 import Footer from "./Footer";
+import {useTranslation} from "react-i18next";
+import i18next from "i18next";
 
 async function checkAuth() {
+
+
     const token = Cookies.get('access_token');
     const user_id=Cookies.get('user_id');
     if (token == null || user_id==null) {
@@ -17,6 +21,8 @@ async function checkAuth() {
             'Content-Type': 'application/json;charset=utf-8',
             'Authorization': `Bearer ${token}`,
             'Accept' : 'application/json',
+            'Content-Language': i18next.language
+
         },
 
     });
