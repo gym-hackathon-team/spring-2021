@@ -1,6 +1,7 @@
 {
 
         "AuthForm": {
+            "errorMes": "Ошибка!",
             "incorrectEmail": "Некорректный email !",
             "incorrectPassword": "Пароль должен быть от 6 до 20 символов !",
             "textFieldEmail": "email",
@@ -13,7 +14,15 @@
             "ButtonLogin": "ВОЙТИ",
             "ButtonRegistration": "ЗАРЕГИСТРИРОВАТЬСЯ",
             "linkCreateAccount": "Зарегистрироваться",
-            "linkLogin": "Войти"
+            "linkLogin": "Войти",
+            "linkResetPassword": "Забыли пароль?",
+            "ResetPasswordLabel1": "Введите email",
+            "ResetPasswordSendEmail": "ДАЛЕЕ",
+            "ErrorEmail": "Ошибка при отправке письма, или email неверный !",
+            "InputToken": "Введите токен из email",
+            "ResetPasswordSendButton": "ИЗМЕНИТЬ ПАРОЛЬ",
+            "ResetPasswordBadToken": "Недействительный токен!",
+            "InputNewPassword": "Введите новый пароль"
         },
     "Dashboard": {
         "header": "Домашняя страница",

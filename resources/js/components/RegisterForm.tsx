@@ -28,7 +28,7 @@ async function register(email: string, password: string, name: string) {
 
 export interface RegisterFormProps {
     afterAuth: () => any,
-    login: () => any
+    changeForm: (type : string) => any
 }
 
 const RegisterForm = (props: RegisterFormProps) => {
@@ -111,9 +111,10 @@ const RegisterForm = (props: RegisterFormProps) => {
                 }
             </div>
 
-            <Link onClick={props.login} underline>
+            <Link onClick={()=>props.changeForm('login')} underline>
                 {t('AuthForm.linkLogin')}
             </Link>
+
             <div className={'auth_text_field'}>
                 <TextField placeholder={t('AuthForm.textFieldName')} underlined value={name} onChange={onChangeName}/>
             </div>

@@ -33,7 +33,7 @@ async function sign_in(email: string, password: string) {
 
 export interface AuthFormProps {
     afterAuth: () => any,
-    register: () => any
+    changeForm: (type : string) => any
 }
 
 const AuthForm = (props: AuthFormProps) => {
@@ -98,9 +98,10 @@ const AuthForm = (props: AuthFormProps) => {
                 }
             </div>
 
-            <Link onClick={props.register} underline>
+            <Link onClick={()=>props.changeForm('register')} underline>
                 {t('AuthForm.linkCreateAccount')}
             </Link>
+
             <div className={'auth_text_field'}>
                 <TextField placeholder={t("AuthForm.textFieldEmail")} onGetErrorMessage={getLoginErrorMessage}
                            deferredValidationTime={500} underlined value={login} onChange={onChangeLogin}/>
@@ -129,7 +130,10 @@ const AuthForm = (props: AuthFormProps) => {
                            }>
                 {t('AuthForm.ButtonLogin')}
             </DefaultButton>
-
+            <br/>
+            <Link onClick={()=>props.changeForm('reset')} underline>
+                {t('AuthForm.linkResetPassword')}
+            </Link>
 
         </div>
 

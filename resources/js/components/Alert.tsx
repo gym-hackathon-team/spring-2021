@@ -28,7 +28,7 @@ export const Alert = (p: AlertProps) => {
     return (
         <MessageBar
             messageBarType={mes_type}
-            isMultiline={false}
+            isMultiline={true}
             onDismiss={p.afterClose}
             dismissButtonAriaLabel="Close"
         >{p.message}

@@ -1,6 +1,7 @@
 {
 
         "AuthForm": {
+            "errorMes": "Error!",
             "incorrectEmail": "Incorrect email !",
             "incorrectPassword": "Password must be between 6 and 20 characters !",
             "textFieldEmail": "email",
@@ -13,7 +14,15 @@
             "ButtonLogin": "LOGIN",
             "ButtonRegistration": "CREATE ACCOUNT",
             "linkCreateAccount": "Create account",
-            "linkLogin": "Login"
+            "linkLogin": "Login",
+            "linkResetPassword": "Forgot password?",
+            "ResetPasswordLabel1": "Input your email",
+            "ResetPasswordSendEmail": "NEXT",
+            "ErrorEmail": "Error with sending email or email incorrect !",
+            "InputToken": "Input token from email",
+            "ResetPasswordSendButton": "CHANGE PASSWORD",
+            "ResetPasswordBadToken": "Invalid token!",
+            "InputNewPassword": "Input new password"
         },
     "Dashboard": {
         "header": "Homepage",

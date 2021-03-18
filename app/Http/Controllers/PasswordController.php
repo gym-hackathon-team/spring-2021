@@ -21,7 +21,8 @@ class PasswordController extends Controller
         $status = Password::sendResetLink($request->only('email'));
 
         if ($status === Password::RESET_LINK_SENT) {
-            return response(['message' => __($status)]);
+            $user_id = $user_id = User::select('id')->where('email', $request->only('email'))->first();
+            return response(['message' => __($status),'user_id'=>$user_id]);
         } else {
             return response(['message' => __('passwords.sent_error')], 400);
         }
@@ -58,8 +59,8 @@ class PasswordController extends Controller
             }
         );
 
-        if ($status === Password::RESET_LINK_SENT) {
-            return response(['message' => __($status)]);
+        if ($status ===  Password::PASSWORD_RESET) {
+            return response(['message' => __($status)],200);
         } else {
             return response(['message' => __($status)], 400);
         }
