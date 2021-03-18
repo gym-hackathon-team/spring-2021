@@ -2,6 +2,7 @@ import {ComboBox, IComboBoxOption} from "office-ui-fabric-react";
 import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 import {IComboBoxProps} from "@fluentui/react";
+import {checkUserLanguage} from "../locales/i18n";
 
 const switchLanguageOptions: IComboBoxOption[] = [
 
@@ -14,7 +15,7 @@ const style = {maxWidth: 200, display: 'block', marginTop: '0'};
 
 export const SwitchLanguage: React.FC = () => {
     const {t, i18n} = useTranslation('common');
-    const [selectedKey, setSelectedKey] = useState('en');
+    const [selectedKey, setSelectedKey] = useState(checkUserLanguage());
     const onChange: IComboBoxProps['onChange'] = (event, option) => {
 
         setSelectedKey(option!.key as string);
