@@ -28,10 +28,11 @@ async function sign_in(email: string, password: string) {
         //localStorage.setItem('access_token', result.access_token);
         Cookies.set('access_token', result.access_token);
         Cookies.set('user_id', String(result.id));
-        return true;
+        return {auth:true,message:result.message};
     } else {
+        let result = await response.json();
         console.log("error: " + response.status);
-        return false;
+        return {auth:false,message:result.message};
     }
 }
 
@@ -120,14 +121,14 @@ const AuthForm = (props: AuthFormProps) => {
 
             <DefaultButton disabled={!regEmail.test(login) || password.length < 6 || password.length > 20}
                            onClick={async () => {
-                               let auth: boolean = await sign_in(login, password);
-                               if (auth) {
+                               let auth = await sign_in(login, password);
+                               if (auth.auth) {
                                    props.afterAuth();
                                } else {
-                                   showErrorAlert(t('AuthForm.AlertErrorAuth'));
+                                   showErrorAlert(auth.message);
                                }
 
-                               SetAuthorised(auth);
+                               SetAuthorised(auth.auth);
 
 
                            }

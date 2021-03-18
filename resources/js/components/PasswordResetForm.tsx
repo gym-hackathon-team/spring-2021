@@ -25,7 +25,9 @@ async function sendEmail(email: string) {
 
         return {status: 'success', message: result.message, user_id: result.user_id.id};
     } else {
-        return {status: 'error'};
+        let result = await response.json();
+
+        return {status: 'error', message: result.message};
     }
 }
 
@@ -74,7 +76,9 @@ async function resetPassword(email: string, password: string, token: string) {
 
         return {status: 'success', message: result.message};
     } else {
-        return {status: 'error'};
+        let result = await response.json();
+
+        return {status: 'error', message: result.message};
     }
 }
 
@@ -189,7 +193,7 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
                                            setState('input_token');
 
                                        } else {
-                                           showErrorAlert(t('AuthForm.ErrorEmail'));
+                                           showErrorAlert(value.message as string);
                                        }
 
                                    })
@@ -267,7 +271,7 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
                                            setUserID(0);
                                            setState('input_email');
                                        } else {
-                                           showErrorAlert(t('AuthForm.errorMes'));
+                                           showErrorAlert(value.message);
                                        }
                                    });
                                }}>
