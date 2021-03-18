@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Password\PasswordValidateRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Requests\Password\PasswordEmailRequest;
@@ -21,22 +22,26 @@ class PasswordController extends Controller
         $status = Password::sendResetLink($request->only('email'));
 
         if ($status === Password::RESET_LINK_SENT) {
-            $user_id = $user_id = User::select('id')->where('email', $request->only('email'))->first();
-            return response(['message' => __($status),'user_id'=>$user_id]);
+            return response(['message' => __($status)]);
         } else {
             return response(['message' => __('passwords.sent_error')], 400);
         }
     }
 
-    public function validation($user_id, $code)
+    /**
+     * @param  PasswordValidateRequest  $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function validation(PasswordValidateRequest $request)
     {
-        $user = User::find($user_id);
+        $user = User::where('email', $request->input('email'))->first();
 
         if ( ! $user) {
             return response(['message' => __('passwords.user')], 404);
         }
 
-        $status = Password::tokenExists($user, $code);
+        $status = Password::tokenExists($user, $request->input('code'));
 
         return response(['message' => $status]);
     }
@@ -60,7 +65,7 @@ class PasswordController extends Controller
         );
 
         if ($status ===  Password::PASSWORD_RESET) {
-            return response(['message' => __($status)],200);
+            return response(['message' => __($status)]);
         } else {
             return response(['message' => __($status)], 400);
         }

@@ -30,7 +30,7 @@ Route::group(['prefix' => 'verification'], function() {
 
 Route::group(['prefix' => 'password', 'middleware' => 'guest'], function() {
     Route::post('/email', [PasswordController::class, 'email'])->name('password.email');
-    Route::get('/validate/{user_id}/{code}', [PasswordController::class, 'validation'])->name('password.validate');
+    Route::post('/validate', [PasswordController::class, 'validation'])->name('password.validate');
     Route::post('/reset', [PasswordController::class, 'update'])->name('password.update');
 });
 
