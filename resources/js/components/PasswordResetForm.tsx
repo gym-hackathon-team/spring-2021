@@ -23,7 +23,7 @@ async function sendEmail(email: string) {
     if (response.status == 200) {
         let result = await response.json();
 
-        return {status: 'success', message: result.message, user_id: result.user_id.id};
+        return {status: 'success', message: result.message};
     } else {
         let result = await response.json();
 
@@ -31,17 +31,18 @@ async function sendEmail(email: string) {
     }
 }
 
-async function validate(user_id: number, token: string) {
+async function validate(email: string, token: string) {
 
-
-    let response = await fetch(`/api/password/validate/${user_id}/${token}`, {
-        method: 'GET',
+    const data={email:email,code:token}
+    let response = await fetch(`/api/password/validate`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
             'Accept': 'application/json',
             'Content-Language': i18next.language
 
         },
+        body: JSON.stringify(data),
 
     });
     if (response.status == 200) {
@@ -95,7 +96,6 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
     const regEmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
     const [state, setState] = useState('input_email');
-    const [userID, setUserID] = useState(0);
     const [email, setEmail] = useState('');
     const [token, setToken] = useState('');
 
@@ -188,7 +188,7 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
                                onClick={() => {
                                    sendEmail(email).then(value => {
                                        if (value.status === 'success') {
-                                           setUserID(value.user_id);
+
                                            showDefaultAlert(value.message);
                                            setState('input_token');
 
@@ -217,7 +217,7 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
 
                 <DefaultButton disabled={token === ""}
                                onClick={() => {
-                                   validate(userID, token).then(value => {
+                                   validate(email, token).then(value => {
                                        if (value.status === 'success') {
                                            if (value.result) {
                                                showDefaultAlert(t('AuthForm.InputNewPassword'));
@@ -268,7 +268,6 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
                                            setPassword('');
                                            setPasswordConfirm('');
                                            setToken('');
-                                           setUserID(0);
                                            setState('input_email');
                                        } else {
                                            showErrorAlert(value.message);
