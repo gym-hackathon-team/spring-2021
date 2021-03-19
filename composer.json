@@ -1,11 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "laravel/livecommerce",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
+    "description": "Hackaton Ogetto case.",
     "license": "MIT",
     "require": {
         "php": "^8.0",
