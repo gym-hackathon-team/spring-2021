@@ -1,6 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +17,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'auth'], function() {
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+    Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('auth.logout');
+});
+
+Route::group(['prefix' => 'verification'], function() {
+    Route::get('/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
+    Route::post('/notify', [VerificationController::class, 'notify'])->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
+});
+
+Route::group(['prefix' => 'password', 'middleware' => 'guest'], function() {
+    Route::post('/email', [PasswordController::class, 'email'])->name('password.email');
+    Route::post('/validate', [PasswordController::class, 'validation'])->name('password.validate');
+    Route::post('/reset', [PasswordController::class, 'update'])->name('password.update');
+});
+
+Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function() {
+    Route::get('/{id}', [UserController::class, 'show'])->name('user.show');
+    Route::post('/', [UserController::class, 'update'])->name('user.update');
 });
