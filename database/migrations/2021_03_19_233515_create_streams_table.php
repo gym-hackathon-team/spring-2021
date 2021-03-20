@@ -21,7 +21,7 @@ class CreateStreamsTable extends Migration
             $table->string('name');
             $table->string('icon');
             $table->boolean('live')->default(true);
-            $table->bigInteger('watcher')->default(0);
+            $table->bigInteger('watchers')->default(0);
 
 
             $table->timestamps();
