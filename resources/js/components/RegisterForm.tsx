@@ -5,32 +5,12 @@ import {DefaultButton, DefaultEffects, Link, TextField} from "@fluentui/react";
 import Alert from "./Alert";
 import {useTranslation} from "react-i18next";
 import i18next from "i18next";
+import {register} from "../utils/user";
 
-async function register(email: string, password: string, name: string) {
-    let data = {
-        email: email, password_confirmation: password,password:password, name: name
-    };
-    let response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Accept': 'application/json',
-            'Content-Language': i18next.language
-        },
-        body: JSON.stringify(data),
-    });
-    if (response.ok) {
-        //alert('Success!');
-        return true;
-    } else {
-        //alert('Error!');
-        return false;
-    }
-}
 
 export interface RegisterFormProps {
-    afterAuth: () => any,
-    changeForm: (type : string) => any
+
+    changeForm: (type: string) => any
 }
 
 const RegisterForm = (props: RegisterFormProps) => {
@@ -113,7 +93,7 @@ const RegisterForm = (props: RegisterFormProps) => {
                 }
             </div>
 
-            <Link onClick={()=>props.changeForm('login')} underline>
+            <Link onClick={() => props.changeForm('login')} underline>
                 {t('AuthForm.linkLogin')}
             </Link>
 
