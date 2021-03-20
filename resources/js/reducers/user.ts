@@ -1,4 +1,4 @@
-const InitialUserState = {id: 0, token: '', authorized: false,init:false};
+const InitialUserState = {id: 0, token: '', authorized: false,init:false,header:''};
 import Redux from 'redux';
 
 interface UserAction
@@ -44,6 +44,15 @@ export function userAuthReducer(state = InitialUserState, action: UserAction) {
             authorized: action.payload.authorized,
             id: action.payload.user_id,
             token: action.payload.token
+        }
+    }
+
+    if (action.type === 'header') {
+        // If so, make a copy of `state`
+        return {
+            ...state,
+
+            header: action.payload.header
         }
     }
 

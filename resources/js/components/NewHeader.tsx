@@ -1,14 +1,27 @@
 import React from 'react';
+import {connect} from "react-redux";
 
 interface NewHeaderProps
 {
-    stream:string
+    state: any,
+    dispatch: any
 }
 
 export function NewHeader(props:NewHeaderProps)
 {
 
 
-    return <div className={'NewHeader'}><p>{props.stream}</p></div> ;
+    return <div className={'NewHeader'}><p>{props.state.header}</p></div> ;
 }
-export default NewHeader;
+
+const mapStateToProps = (state: any) => ({
+    state: state
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+    dispatch
+});
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(NewHeader);
