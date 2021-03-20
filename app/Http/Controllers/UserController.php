@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -38,6 +39,7 @@ class UserController extends Controller
         $user = Auth::user();
 
         $data   = $request->all();
+        $data['password'] = Hash::make($data['password']);
         $result = $user->fill($data)->save();
 
         if ($result) {
