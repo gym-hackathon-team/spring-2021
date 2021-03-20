@@ -46,4 +46,8 @@ class UserController extends Controller
             return response(['message' => __('user.update.failed')], 400);
         }
     }
+
+    public function streams() {
+
+    }
 }

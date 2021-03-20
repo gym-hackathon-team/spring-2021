@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\StreamController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
@@ -34,7 +36,21 @@ Route::group(['prefix' => 'password', 'middleware' => 'guest'], function() {
     Route::post('/reset', [PasswordController::class, 'update'])->name('password.update');
 });
 
-Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function() {
+// TODO add 'middleware' => 'auth:api'
+Route::group(['prefix' => 'user'], function() {
     Route::get('/{id}', [UserController::class, 'show'])->name('user.show');
+    Route::get('/{id}/streams', [UserController::class, 'streams'])->name('user.streams');
     Route::post('/', [UserController::class, 'update'])->name('user.update');
+});
+
+// TODO add 'middleware' => 'auth:api'
+Route::group(['prefix' => 'stream'], function() {
+    Route::get('/{id}', [StreamController::class, 'show'])->name('user.show');
+    Route::post('/', [StreamController::class, 'update'])->name('user.update');
+});
+
+// TODO add 'middleware' => 'auth:api'
+Route::group(['prefix' => 'statistics'], function() {
+    Route::get('/user/{user_id}', [StatisticsController::class, 'user'])->name('statistics.user');
+    Route::get('/stream/{stream_id}', [StatisticsController::class, 'stream'])->name('statistics.stream');
 });
