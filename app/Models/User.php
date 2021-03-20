@@ -24,9 +24,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'name',
         'email',
         'password',
-        'sex',
-        'bio',
-        'birth_day',
     ];
 
     /**
@@ -47,6 +44,14 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'email_verified' => 'boolean',
         'birth_day' => 'datetime',
     ];
+
+    /**
+     * Get user streams
+     */
+    public function streams()
+    {
+        return $this->hasMany(Stream::class, 'user_id');
+    }
 
     /**
      * Determine if the user has verified their email address.
