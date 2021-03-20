@@ -55,9 +55,10 @@ const App = (props:AppProps) => {
                             }
                         </Route>
                     </Switch>
-
+                    {/*
                         <Footer/>
-
+                        */
+                    }
                 </BrowserRouter>
             }
         </>
