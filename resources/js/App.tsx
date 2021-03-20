@@ -21,6 +21,7 @@ interface AppProps
     dispatch:any
 }
 const App = (props:AppProps) => {
+    const {t, i18n} = useTranslation('common');
 
     return( <>
             { props.state.init &&
@@ -29,6 +30,7 @@ const App = (props:AppProps) => {
                         props.state.authorized &&
                             <Header/>
                     }
+
                     <Switch>
                         <Route path="/" exact>
                             {props.state.authorized ?
@@ -44,15 +46,14 @@ const App = (props:AppProps) => {
                         </Route>
                         <Route path="/user" exact>
                             {props.state.authorized ?
-                                <UserPage/> :
+                                <UserPage t={t}/> :
                                 <Redirect to={'/'}/>
                             }
                         </Route>
                     </Switch>
-                    {
-                        ! props.state.authorized &&
+
                         <Footer/>
-                    }
+
                 </BrowserRouter>
             }
         </>

@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {DefaultButton, DefaultEffects, TextField} from "@fluentui/react";
 import {getUserInfo, UserInfoUpdate} from "../utils/user";
-import i18n from "../locales/i18n";
+import Alert from "../components/Alert";
+//import i18n from "../locales/i18n";
 /*
 bio: null
 birth_day: null
@@ -62,78 +63,138 @@ interface UserState {
     name: any
     sex: any
     updated_at: any,
-    password: string | undefined,
-    confirm_password: string | undefined
+    password: string,
+    confirm_password: string,
+    alert: { type: string, message: string }
 
 }
 
-class UserPage extends React.Component<{}, UserState> {
+interface UserPageProps {
+    t: any
+}
 
+class UserPage extends React.Component<UserPageProps, UserState> {
+    constructor(props: UserPageProps) {
+        super(props)
+    }
 
     componentDidMount() {
         getUserInfo().then(value => {
-            this.setState({...value.result, password: '', confirm_password: ''});
+            this.setState({...value.result, password: '', confirm_password: '', alert: {message:'',type:'default'}});
         });
     }
 
+
     render() {
+
+        const SetAlert = (alert: { message: string, type: string }) => {
+            this.setState({
+                ...this.state,
+                alert: alert
+            })
+        }
+        const afterAlertClose = () => SetAlert({type: 'default', message: ''});
+        const regEmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+        const showErrorAlert = (text: string) => {
+            SetAlert({type: 'error', message: text})
+        };
+        const showWarningAlert = (text: string) => {
+            SetAlert({type: 'warning', message: text})
+        };
+        const showSuccessAlert = (text: string) => {
+            SetAlert({type: 'success', message: text})
+        };
+        const showDefaultAlert = (text: string) => {
+            SetAlert({type: 'default', message: text})
+        };
+
         const getPasswordErrorMessage = (value: string): string => {
 
-            return value.length >= 6 && value.length <= 20 || value === '' ? '' : i18n.t('AuthForm.incorrectPassword');
+            return value.length >= 6 && value.length <= 20 || value === '' ? '' : this.props.t('AuthForm.incorrectPassword');
         };
-        return <div style={{boxShadow: DefaultEffects.elevation8}} className={'UserInfo'}>
+        return <div style={{boxShadow: DefaultEffects.elevation8}} className={'UserInfo'} >
             {
                 this.state &&
                 <>
-
-
-                    <TextField label="email" value={this.state.email == null ? '' : this.state.email}
-                               onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => this.setState({
-                                   ...this.state,
-                                   email: newValue
-                               })}/>
-                    <TextField label="name" value={this.state.name == null ? '' : this.state.name}
-                               onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => this.setState({
-                                   ...this.state,
-                                   name: newValue
-                               })}/>
-                    <TextField label="password" type={'password'} value={this.state.password} onGetErrorMessage={getPasswordErrorMessage}
-                               onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
-                                   if (String(newValue).length <= 20) {
-                                       this.setState({
-                                           ...this.state,
-                                           password: newValue
-                                       })
+                    <div className={'alert_message'}>
+                        {this.state.alert.message.length > 0 &&
+                        <Alert type={this.state.alert.type} afterClose={afterAlertClose}
+                               message={this.state.alert.message}/>
+                        }
+                    </div>
+                    <div className={'user_text_field'}>
+                        <TextField label={this.props.t('AuthForm.textFieldEmail')}
+                                   value={this.state.email == null ? '' : this.state.email}
+                                   onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => this.setState({
+                                       ...this.state,
+                                       email: newValue
+                                   })}
+                                   onGetErrorMessage={(value) => {
+                                       return regEmail.test(value) ? '' : this.props.t('AuthForm.incorrectEmail')
+                                   }}
+                        />
+                    </div>
+                    <div className={'user_text_field'}>
+                        <TextField label={this.props.t('AuthForm.textFieldName')}
+                                   value={this.state.name == null ? '' : this.state.name}
+                                   onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => this.setState({
+                                       ...this.state,
+                                       name: newValue
+                                   })}/>
+                    </div>
+                    <div className={'user_text_field'}>
+                        <TextField label={this.props.t("AuthForm.textFieldPassword")} type={'password'}
+                                   value={this.state.password} onGetErrorMessage={getPasswordErrorMessage}
+                                   onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+                                       if (String(newValue).length <= 20) {
+                                           this.setState({
+                                               ...this.state,
+                                               password: String(newValue)
+                                           })
+                                       }
                                    }
-                               }
-                               }/>
+                                   }/>
+                    </div>
+                    <div className={'user_text_field'}>
+                        <TextField label={this.props.t('AuthForm.textFieldConfirmPassword')} type={'password'}
+                                   value={this.state.confirm_password} onGetErrorMessage={getPasswordErrorMessage}
+                                   onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+                                       if (String(newValue).length <= 20) {
+                                           this.setState({
+                                               ...this.state,
+                                               confirm_password: String(newValue)
+                                           })
+                                       }
+                                   }}/>
 
-                    <TextField label="confirm password" type={'password'} value={this.state.confirm_password} onGetErrorMessage={getPasswordErrorMessage}
-                               onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
-                                   if (String(newValue).length <= 20) {
-                                       this.setState({
-                                           ...this.state,
-                                           confirm_password: newValue
-                                       })
-                                   }
-                               }}/>
-
-
+                    </div>
                     <DefaultButton
-                        disabled={String(this.state.password).length > 0 && String(this.state.password).length < 6 || this.state.password !== this.state.confirm_password}
+                        disabled={!regEmail.test(this.state.email) || String(this.state.password).length > 0 && String(this.state.password).length < 6 || this.state.password !== this.state.confirm_password}
                         onClick={() => {
 
-                            let updateData = this.state;
-                            if (String(this.state.password).length >= 6 && String(this.state.password).length <= 20 && this.state.password === this.state.confirm_password) {
+                            let updateData = {id: this.state.id, name: this.state.name, email: this.state.email};
+                            if (this.state.password.length >= 6 && this.state.password.length <= 20 && this.state.password === this.state.confirm_password) {
+                                // @ts-ignore
                                 updateData = {...updateData, password: this.state.password};
                             }
                             console.log(updateData);
+
                             UserInfoUpdate(updateData).then(value => {
                                 console.log(value);
-                                this.setState({...this.state, password: '', confirm_password: ""});
+                                if (value)
+                                {
+                                    showSuccessAlert(this.props.t('UserPage.SuccessUpdateAlert'))
+                                }
+                                else
+                                {
+                                    showErrorAlert(this.props.t('AuthForm.errorMes'));
+                                }
+                                this.setState({...this.state, password: '', confirm_password: ''});
                             });
 
-                        }}>UPDATE</DefaultButton>
+
+                        }}>{this.props.t('UserPage.UpdateButton')}</DefaultButton>
                 </>
             }
 

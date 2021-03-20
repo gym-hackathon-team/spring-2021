@@ -39,6 +39,12 @@
 
         "text": "Домашняя страница"
 
+    },
+    "UserPage":
+    {
+        "UpdateButton": "ОБНОВИТЬ",
+        "SuccessUpdateAlert": "Успешно обновлено!"
+
     }
 
 

@@ -10,14 +10,16 @@ const LogOutIcon = () => <Icon iconName="SignOut"/>;
 const Header: React.FC = () => {
     const {t, i18n} = useTranslation('common');
 
-    return (<div className={'Nav'}>
+    return (
+        <div className={'Nav'}>
         <h4 className={'header'}><Link to={'/'}>{t('Dashboard.header')}</Link></h4>
         <h4 className={'header'}><Link to={'/user'}>{'User'}</Link></h4>
-        <SwitchLanguage/>
+
         <DefaultButton onClick={() => {
             log_out().then();
-        }}><LogOutIcon/></DefaultButton>
-    </div>);
+        }} ><LogOutIcon/></DefaultButton>
+    </div>
+    );
 }
 
 export default Header;
