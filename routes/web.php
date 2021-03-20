@@ -16,4 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::any('{query}',
     function() { return view('app'); })
      ->where('query', '.*');
-
