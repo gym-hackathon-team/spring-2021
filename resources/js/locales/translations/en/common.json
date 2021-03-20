@@ -39,7 +39,13 @@
 
         "text": "Home"
 
+    },
+    "UserPage":
+    {
+        "UpdateButton": "UPDATE",
+        "SuccessUpdateAlert": "Success updated!"
     }
+
 
 
 }

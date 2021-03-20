@@ -37,7 +37,8 @@ i18n
     .init({
         resources,
         lng: checkUserLanguage(),
-
+        ns: ['common'],
+        defaultNS: 'common',
        // keySeparator: false, // we do not use keys in form messages.welcome
 
         interpolation: {
