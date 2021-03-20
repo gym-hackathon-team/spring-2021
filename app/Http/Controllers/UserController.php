@@ -38,8 +38,10 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $data   = $request->all();
-        $data['password'] = Hash::make($data['password']);
+        $data = $request->all();
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
         $result = $user->fill($data)->save();
 
         if ($result) {
@@ -55,7 +57,8 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      *
      */
-    public function streams($id) {
+    public function streams($id)
+    {
         $user = User::find($id);
 
         if ( ! $user) {

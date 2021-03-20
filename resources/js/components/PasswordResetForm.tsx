@@ -4,88 +4,12 @@ import {DefaultButton, DefaultEffects, Link, TextField} from "@fluentui/react";
 import Alert from "./Alert";
 import * as Cookies from "js-cookie";
 import i18next from "i18next";
+import {resetPassword, sendEmail, validate} from "../utils/user";
 
-
-async function sendEmail(email: string) {
-
-    let data = {
-        email: email
-    };
-    let response = await fetch('/api/password/email', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Accept': 'application/json',
-            'Content-Language': i18next.language
-        },
-        body: JSON.stringify(data),
-    });
-    if (response.status == 200) {
-        let result = await response.json();
-
-        return {status: 'success', message: result.message};
-    } else {
-        let result = await response.json();
-
-        return {status: 'error', message: result.message};
-    }
-}
-
-async function validate(email: string, token: string) {
-
-    const data={email:email,code:token}
-    let response = await fetch(`/api/password/validate`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Accept': 'application/json',
-            'Content-Language': i18next.language
-
-        },
-        body: JSON.stringify(data),
-
-    });
-    if (response.status == 200) {
-        let result = await response.json();
-
-        return {status: 'success', result: result.message};
-    } else {
-        return {status: 'error'};
-    }
-}
-
-async function resetPassword(email: string, password: string, token: string) {
-
-    let data = {
-        email: email,
-        password: password,
-        password_confirmation: password,
-        token: token
-    };
-    let response = await fetch('/api/password/reset', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Accept': 'application/json',
-            'Content-Language': i18next.language
-
-        },
-        body: JSON.stringify(data),
-    });
-    if (response.status == 200) {
-        let result = await response.json();
-
-        return {status: 'success', message: result.message};
-    } else {
-        let result = await response.json();
-
-        return {status: 'error', message: result.message};
-    }
-}
 
 
 export interface PasswordResetForm {
-    afterAuth: () => any,
+
     changeForm: (type: string) => any
 }
 
