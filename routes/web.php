@@ -19,6 +19,6 @@ Route::get('/', function () {
 
 
 Route::any('{query}',
-    function() { return redirect('/'); })
+    function() { return view('app'); })
      ->where('query', '.*');
 

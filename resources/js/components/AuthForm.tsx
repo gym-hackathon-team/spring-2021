@@ -7,6 +7,8 @@ import * as Cookies from "js-cookie";
 import Alert from "./Alert";
 import i18next from "i18next";
 
+import {store} from '../index'
+import {LoginAction} from '../actions/user'
 
 async function sign_in(email: string, password: string) {
     let data = {
@@ -25,9 +27,16 @@ async function sign_in(email: string, password: string) {
     });
     if (response.status == 200) {
         let result = await response.json();
+        console.log(result);
+        /*
         //localStorage.setItem('access_token', result.access_token);
         Cookies.set('access_token', result.access_token);
         Cookies.set('user_id', String(result.id));
+
+         */
+
+        store.dispatch(LoginAction(result.access_token,result.id));
+
         return {auth:true,message:result.message};
     } else {
         let result = await response.json();

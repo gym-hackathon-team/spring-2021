@@ -9,6 +9,9 @@ import { Icon } from '@fluentui/react/lib/Icon';
 import {useTranslation} from "react-i18next";
 const LogOutIcon = () => <Icon iconName="SignOut" />;
 
+import {store} from '../index'
+import {LogoutAction} from '../actions/user'
+
 async function log_out()
 {
     const token = Cookies.get('access_token');
@@ -24,8 +27,9 @@ async function log_out()
     });
     if (response.ok) {
 
-        Cookies.remove('access_token');
-        Cookies.remove('user_id');
+       // Cookies.remove('access_token');
+        //Cookies.remove('user_id');
+        store.dispatch(LogoutAction);
         return true;
     }
     else
@@ -49,18 +53,12 @@ interface DashboardProps
 const Dashboard = (props:DashboardProps) => {
     const {t, i18n} = useTranslation('common');
     const history = useHistory();
-    const [auth,setAuth]=useState(props.auth);
-    return (auth ? <>
+    //const [auth,setAuth]=useState(props.auth);
+    return (<>
             <div className={'Nav'}>
                 <h1 className={'header'}>{t('Dashboard.header')}</h1>
                 <DefaultButton onClick={()=>{
-                    log_out().then(value=>{
-                        if (value)
-                        {
-                            props.afterLogOut();
-                            setAuth(false);
-                        }
-                    })
+                    log_out().then();
                 }}><LogOutIcon/></DefaultButton>
             </div>
 
@@ -70,8 +68,6 @@ const Dashboard = (props:DashboardProps) => {
 
 
     </>
-    :
-            <Redirect to={'/'}/>
     );
 }
 
