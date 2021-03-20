@@ -2,24 +2,50 @@
 
 .AuthFormWrapper
     display: flex
-    height: 96vh
+    height: 100vh
     justify-content: center
     align-items: center
     .AuthForm
-        padding: 5%
-        width: 300px
+        @media (max-width: 768px)
+            width: 100vw
+            height: 100vh
+
+        padding: 2%
+        display: flex
+        justify-content: center
+        width: 400px
+        height: 85%
+        flex-direction: column
         & > *:nth-child(n+2)
             margin-top: 10px
         .WithoutAuth
             display: block
 
-
+.p_1
+    color: #888888
+    font-family: "Segoe UI"
+    font-style: normal
+    font-weight: normal
+.main_header
+    font-family: "Segoe UI"
+    margin: 0 !important
+    font-weight: normal
+.head1
+        font-family: "Segoe UI"
+        font-style: italic
+        color: #16B5E8
+        margin: 0 !important
+        font-weight: normal
 .Nav
     display: flex
     justify-content: space-between
     padding: 2% 2%
     margin: 1% auto
     align-items: center
+
+.center_block
+    display: flex
+    justify-content: center
 
 
 .header
@@ -30,22 +56,31 @@
     display: flex
     justify-content: center
 .auth_text_field
-    height: 3em
+    height: 4em
 
 .user_text_field
     height: 4em
 
+.user1_text_field
+    height: 5em
+
+
 .alert_message
-    min-height: 2em
+    min-height: 5em
+    display: flex
+    justify-content: center
+    align-items: center
 
 .Footer
-    margin: 0 auto
-    position: absolute
-    bottom: 0
-    height: 3em
+    margin: 0
     display: flex
-    padding: 2%
+    width: 100%
+    padding: 0
+    flex-direction: row
+    justify-content: space-between
     align-items: center
+    background: #F9F9F9
+    height: 3em
 
 .UserInfo
     display: flex
@@ -57,3 +92,46 @@
     width: 300px
     & > *:nth-child(n+2)
             margin-top: 10px
+
+.NewHeader
+    margin: 0
+    display: flex
+    width: 100%
+    flex-direction: column
+    justify-content: center
+    background: #F9F9F9
+    height: 3em
+    p
+        text-align: center
+        font-family: "Segoe UI"
+        font-size: 12px
+
+
+.authorized_container
+
+    display: flex
+    height: 100vh
+    justify-content: center
+    align-items: center
+    flex-direction: column
+
+.container1
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    align-items: center
+    padding: 2%
+    height: 85%
+    width: 400px
+    @media (max-width: 768px)
+        width: 100vw
+        height: 100vh
+
+
+.user_page
+    margin: 0
+    width: 100%
+    height: 100%
+    display: flex
+    flex-direction: column
+    justify-content: flex-start

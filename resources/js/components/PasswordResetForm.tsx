@@ -90,25 +90,26 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
 
         <div style={{boxShadow: DefaultEffects.elevation8}} className={'AuthForm'}>
 
-            <div className={'alert_message'}>
-                {alert.message.length > 0 &&
-                <Alert type={alert.type} afterClose={afterAlertClose} message={alert.message}/>
-                }
-            </div>
-            <Link onClick={() => props.changeForm('login')} underline>
-                {t('AuthForm.linkLogin')}
-            </Link>
+
+
 
             {state === "input_email" &&
             <>
 
+                <h1 className={'main_header'}>{t('AuthForm.label4')}</h1>
 
-                <div className={'auth_text_field'}>
-                    <TextField placeholder={t('AuthForm.ResetPasswordLabel1')} onGetErrorMessage={getEmailErrorMessage}
-                               deferredValidationTime={500} underlined value={email} onChange={onChangeEmail}/>
+                <p className={'p_1'}>{t('AuthForm.label5')}
+                </p>
+
+                <div className={'auth_text_field'} style={{marginBottom:'2em'}}>
+                    <TextField style={{width: "100%"}} label={t('AuthForm.ResetPasswordLabel1')} onGetErrorMessage={getEmailErrorMessage}
+                               deferredValidationTime={500}  value={email} onChange={onChangeEmail}/>
                 </div>
 
-                <DefaultButton disabled={email === '' || !regEmail.test(email)}
+                <DefaultButton
+                    style={{width:'100%',background:"#16B5E8"}}
+                    primary
+                    disabled={email === '' || !regEmail.test(email)}
                                onClick={() => {
                                    sendEmail(email).then(value => {
                                        if (value.status === 'success') {
@@ -126,20 +127,28 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
 
 
                 </DefaultButton>
+
+
             </>
             }
 
             {state === "input_token" &&
             <>
 
+                <h1 className={'main_header'}>{t('AuthForm.label6')}</h1>
 
-                <div className={'auth_text_field'}>
-                    <TextField placeholder={t('AuthForm.InputToken')}
-                               underlined value={token} onChange={onChangeToken}/>
+                <p className={'p_1'}>{t('AuthForm.label7')}</p>
+
+                <div className={'auth_text_field'} style={{marginBottom:'2em'}}>
+                    <TextField style={{width: "100%"}} label={t('AuthForm.InputToken')}
+                                value={token} onChange={onChangeToken}/>
                 </div>
 
 
-                <DefaultButton disabled={token === ""}
+                <DefaultButton
+                    style={{width:'100%',background:"#16B5E8"}}
+                    primary
+                    disabled={token === ""}
                                onClick={() => {
                                    validate(email, token).then(value => {
                                        if (value.status === 'success') {
@@ -164,24 +173,31 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
 
             {state === "input_password" &&
             <>
+                <h1 className={'main_header'}>{t('AuthForm.label8')}</h1>
 
+                <p className={'p_1'}>{t('AuthForm.label9')}</p>
 
                 <div className={'auth_text_field'}>
-                    <TextField placeholder={t('AuthForm.textFieldPassword')}
+                    <TextField style={{width: "100%"}} label={t('AuthForm.textFieldPassword')}
                                onGetErrorMessage={getPasswordErrorMessage}
                                deferredValidationTime={500}
-                               underlined canRevealPassword type={'password'} value={password}
+                                canRevealPassword type={'password'} value={password}
                                onChange={onChangePassword}/>
                 </div>
-                <div className={'auth_text_field'}>
-                    <TextField placeholder={t('AuthForm.textFieldConfirmPassword')}
+                <div style={{marginBottom:'2em'}} className={'auth_text_field'}>
+                    <TextField style={{width: "100%"}} label={t('AuthForm.textFieldConfirmPassword')}
                                onGetErrorMessage={getPasswordErrorMessage}
                                deferredValidationTime={500}
-                               underlined canRevealPassword type={'password'} value={passwordConfirm}
+                                canRevealPassword type={'password'} value={passwordConfirm}
                                onChange={onChangePasswordConfirm}/>
                 </div>
 
-                <DefaultButton disabled={password !== passwordConfirm ||
+                <p className={'p_1'}>{t('AuthForm.label10')}</p>
+
+                <DefaultButton
+                    style={{width:'100%',background:"#16B5E8"}}
+                    primary
+                    disabled={password !== passwordConfirm ||
                 (password.length < 6 || password.length > 20) ||
                 (passwordConfirm.length < 6 || passwordConfirm.length > 20)}
                                onClick={() => {
@@ -192,7 +208,10 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
                                            setPassword('');
                                            setPasswordConfirm('');
                                            setToken('');
-                                           setState('input_email');
+
+                                           setTimeout(()=>{
+                                               props.changeForm('login');
+                                           }, 3000);
                                        } else {
                                            showErrorAlert(value.message);
                                        }
@@ -202,8 +221,15 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
 
 
                 </DefaultButton>
+
             </>
             }
+
+            <div className={'alert_message'}>
+                {alert.message.length > 0 &&
+                <Alert type={alert.type} afterClose={afterAlertClose} message={alert.message}/>
+                }
+            </div>
 
         </div>
 

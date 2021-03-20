@@ -1,56 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {DefaultButton, DefaultEffects, TextField} from "@fluentui/react";
-import {getUserInfo, UserInfoUpdate} from "../utils/user";
+import {DefaultButton, DefaultEffects, Icon, TextField} from "@fluentui/react";
+import {getUserInfo, log_out, UserInfoUpdate} from "../utils/user";
 import Alert from "../components/Alert";
-//import i18n from "../locales/i18n";
-/*
-bio: null
-birth_day: null
-created_at: "2021-03-18T03:48:01.000000Z"
-deleted_at: null
-email: "amaso2001@gmail.com"
-email_verified: true
-id: 19
-name: "Алекс"
-sex: "not selected"
-updated_at: "2021-03-19T14:15:54.000000Z"
- */
-
-/*
-export function UserPage() {
-    const [userInfo, setInfo] = useState({} as any);
-
-
-    return <div style={{boxShadow: DefaultEffects.elevation8}} className={'UserInfo'}>
-        {
-            userInfo != {} &&
-            <>
-                <TextField label="bio" value={userInfo.bio}/>
-
-                <TextField label="birth_day" value={String(userInfo.birth_day)}/>
-                <TextField label="created_at" value={String(userInfo.created_at)}/>
-                <TextField label="deleted_at" value={String(userInfo.deleted_at)}/>
-                <TextField label="email" value={String(userInfo.email)}/>
-                <TextField label="name" value={String(userInfo.name)}/>
-
-                <TextField label="sex" value={String(userInfo.sex)}/>
-                <DefaultButton onClick={() => {
-
-                    getUserInfo().then(value => {
-                        setInfo(value.result);
-                    });
-
-                }
-                }
-                />
-            </>
-        }
-
-
-    </div>
-
-}
-*/
+import {HeaderAction} from "../actions/user";
+import {connect} from "react-redux";
+const LogOutIcon = () => <Icon iconName="SignOut"/>;
 
 interface UserState {
     bio: any
@@ -70,7 +24,9 @@ interface UserState {
 }
 
 interface UserPageProps {
-    t: any
+    t: any,
+    state: any,
+    dispatch: any
 }
 
 class UserPage extends React.Component<UserPageProps, UserState> {
@@ -79,6 +35,7 @@ class UserPage extends React.Component<UserPageProps, UserState> {
     }
 
     componentDidMount() {
+        this.props.dispatch(HeaderAction('History'));
         getUserInfo().then(value => {
             this.setState({...value.result, password: '', confirm_password: '', alert: {message:'',type:'default'}});
         });
@@ -113,18 +70,13 @@ class UserPage extends React.Component<UserPageProps, UserState> {
 
             return value.length >= 6 && value.length <= 20 || value === '' ? '' : this.props.t('AuthForm.incorrectPassword');
         };
-        return <div style={{boxShadow: DefaultEffects.elevation8}} className={'UserInfo'} >
+        return <div className={'user_page'} >
             {
                 this.state &&
                 <>
-                    <div className={'alert_message'}>
-                        {this.state.alert.message.length > 0 &&
-                        <Alert type={this.state.alert.type} afterClose={afterAlertClose}
-                               message={this.state.alert.message}/>
-                        }
-                    </div>
-                    <div className={'user_text_field'}>
-                        <TextField label={this.props.t('AuthForm.textFieldEmail')}
+
+                    <div className={'user1_text_field'}>
+                        <TextField  label={this.props.t('AuthForm.textFieldEmail')}
                                    value={this.state.email == null ? '' : this.state.email}
                                    onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => this.setState({
                                        ...this.state,
@@ -135,16 +87,16 @@ class UserPage extends React.Component<UserPageProps, UserState> {
                                    }}
                         />
                     </div>
-                    <div className={'user_text_field'}>
-                        <TextField label={this.props.t('AuthForm.textFieldName')}
+                    <div className={'user1_text_field'}>
+                        <TextField  label={this.props.t('AuthForm.textFieldName')}
                                    value={this.state.name == null ? '' : this.state.name}
                                    onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => this.setState({
                                        ...this.state,
                                        name: newValue
                                    })}/>
                     </div>
-                    <div className={'user_text_field'}>
-                        <TextField label={this.props.t("AuthForm.textFieldPassword")} type={'password'}
+                    <div className={'user1_text_field'}>
+                        <TextField  placeholder={'*****'} label={this.props.t("AuthForm.textFieldPassword")} type={'password'}
                                    value={this.state.password} onGetErrorMessage={getPasswordErrorMessage}
                                    onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
                                        if (String(newValue).length <= 20) {
@@ -156,8 +108,8 @@ class UserPage extends React.Component<UserPageProps, UserState> {
                                    }
                                    }/>
                     </div>
-                    <div className={'user_text_field'}>
-                        <TextField label={this.props.t('AuthForm.textFieldConfirmPassword')} type={'password'}
+                    <div className={'user1_text_field'}>
+                        <TextField  placeholder={'*****'} label={this.props.t('AuthForm.textFieldConfirmPassword')} type={'password'}
                                    value={this.state.confirm_password} onGetErrorMessage={getPasswordErrorMessage}
                                    onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
                                        if (String(newValue).length <= 20) {
@@ -170,6 +122,8 @@ class UserPage extends React.Component<UserPageProps, UserState> {
 
                     </div>
                     <DefaultButton
+                        style={{width:'100%',background:"#16B5E8"}}
+                        primary
                         disabled={!regEmail.test(this.state.email) || String(this.state.password).length > 0 && String(this.state.password).length < 6 || this.state.password !== this.state.confirm_password}
                         onClick={() => {
 
@@ -195,6 +149,17 @@ class UserPage extends React.Component<UserPageProps, UserState> {
 
 
                         }}>{this.props.t('UserPage.UpdateButton')}</DefaultButton>
+                    <div style={{margin:"1% auto"}}>
+                    <DefaultButton onClick={()=>{
+                        log_out().then()
+                    }}><LogOutIcon/></DefaultButton>
+                    </div>
+                    <div className={'alert_message'}>
+                        {this.state.alert.message.length > 0 &&
+                        <Alert type={this.state.alert.type} afterClose={afterAlertClose}
+                               message={this.state.alert.message}/>
+                        }
+                    </div>
                 </>
             }
 
@@ -203,4 +168,14 @@ class UserPage extends React.Component<UserPageProps, UserState> {
     }
 }
 
-export default UserPage;
+const mapStateToProps = (state: any) => ({
+    state: state
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+    dispatch
+});
+export default  connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(UserPage);

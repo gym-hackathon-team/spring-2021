@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
@@ -11,36 +11,44 @@ import i18next from "i18next";
 import {connect, useDispatch, useStore} from 'react-redux'
 import UserPage from "./pages/UserPage";
 import Header from "./components/Header";
+import NewHeader from "./components/NewHeader";
+import {DefaultEffects} from "@fluentui/react";
+import History from './pages/History'
 
-
-
-
-interface AppProps
-{
-    state:any,
-    dispatch:any
+interface AppProps {
+    state: any,
+    dispatch: any
 }
-const App = (props:AppProps) => {
+
+const App = (props: AppProps) => {
     const {t, i18n} = useTranslation('common');
 
-    return( <>
-            { props.state.init &&
-                <BrowserRouter>
+    return (<>
+            {props.state.init &&
+            <BrowserRouter>
+
+                <div
+                     className={props.state.authorized ? 'authorized_container' : ''}>
+                    <div style={props.state.authorized ?{boxShadow: DefaultEffects.elevation8}:{}} className={props.state.authorized ? 'container1' : ''}>
+
                     {
                         props.state.authorized &&
-                            <Header/>
+
+
+                            <NewHeader />
+
                     }
 
                     <Switch>
                         <Route path="/" exact>
                             {props.state.authorized ?
-                                <Redirect to={'/dashboard'}/> :
-                                <Auth  />
+                                <Redirect to={'/history'}/> :
+                                <Auth/>
                             }
                         </Route>
-                        <Route path="/dashboard" exact>
+                        <Route path="/history" exact>
                             {props.state.authorized ?
-                                <Dashboard/> :
+                                <History t={t}/> :
                                 <Redirect to={'/'}/>
                             }
                         </Route>
@@ -50,11 +58,29 @@ const App = (props:AppProps) => {
                                 <Redirect to={'/'}/>
                             }
                         </Route>
+
+                        <Route path="/stats" exact>
+                            {props.state.authorized ?
+                                <div>Stats</div> :
+                                <Redirect to={'/'}/>
+                            }
+                        </Route>
+
+                        <Route path="/stream" exact>
+                            {props.state.authorized ?
+                                <div>Stream</div> :
+                                <Redirect to={'/'}/>
+                            }
+                        </Route>
                     </Switch>
+                    {props.state.authorized &&
 
-                        <Footer/>
+    <                   Footer/>
 
-                </BrowserRouter>
+                    }
+                </div>
+                </div>
+            </BrowserRouter>
             }
         </>
     );
