@@ -9,6 +9,8 @@ import i18next from "i18next";
 
 
 import {connect, useDispatch, useStore} from 'react-redux'
+import UserPage from "./pages/UserPage";
+import Header from "./components/Header";
 
 
 
@@ -23,6 +25,10 @@ const App = (props:AppProps) => {
     return( <>
             { props.state.init &&
                 <BrowserRouter>
+                    {
+                        props.state.authorized &&
+                            <Header/>
+                    }
                     <Switch>
                         <Route path="/" exact>
                             {props.state.authorized ?
@@ -36,8 +42,17 @@ const App = (props:AppProps) => {
                                 <Redirect to={'/'}/>
                             }
                         </Route>
+                        <Route path="/user" exact>
+                            {props.state.authorized ?
+                                <UserPage/> :
+                                <Redirect to={'/'}/>
+                            }
+                        </Route>
                     </Switch>
-                    <Footer/>
+                    {
+                        ! props.state.authorized &&
+                        <Footer/>
+                    }
                 </BrowserRouter>
             }
         </>

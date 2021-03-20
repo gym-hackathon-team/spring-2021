@@ -145,7 +145,7 @@ export async function sendEmail(email: string) {
 
 export async function validate(email: string, token: string) {
 
-    const data={email:email,code:token}
+    const data = {email: email, code: token}
     let response = await fetch(`/api/password/validate`, {
         method: 'POST',
         headers: {
@@ -199,8 +199,8 @@ export async function checkAuth() {
 
 
     const token = Cookies.get('access_token');
-    const user_id=Cookies.get('user_id');
-    if (token == null || user_id==null) {
+    const user_id = Cookies.get('user_id');
+    if (token == null || user_id == null) {
         return false;
     }
     let response = await fetch(`/api/user/${user_id}`, {
@@ -208,16 +208,53 @@ export async function checkAuth() {
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
             'Authorization': `Bearer ${token}`,
-            'Accept' : 'application/json',
+            'Accept': 'application/json',
             'Content-Language': i18next.language
 
         },
 
     });
-    if (!response.ok)
-    {
+    if (!response.ok) {
         Cookies.remove('access_token');
         Cookies.remove('user_id');
     }
     return response.ok;
+}
+
+export async function getUserInfo(id = store.getState().id) {
+    let response = await fetch(`/api/user/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            'Authorization': `Bearer ${store.getState().token}`,
+            'Accept': 'application/json',
+            'Content-Language': i18next.language
+
+        },
+
+    });
+    if (response.ok) {
+        const result = await response.json();
+        return {success: true, result: result}
+    }
+    return {success: false}
+
+}
+
+export async function UserInfoUpdate(userInfo:any) {
+    let response = await fetch(`/api/user/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            'Authorization': `Bearer ${store.getState().token}`,
+            'Accept': 'application/json',
+            'Content-Language': i18next.language
+
+        },
+        body:JSON.stringify(userInfo)
+
+    });
+    return response.ok;
+
+
 }
