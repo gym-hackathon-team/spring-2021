@@ -2,43 +2,14 @@ import React, {useEffect} from "react";
 import {useState} from "react";
 import {DefaultButton, DefaultEffects, TextField, Link} from "@fluentui/react";
 import {useTranslation} from 'react-i18next';
-
-import * as Cookies from "js-cookie";
 import Alert from "./Alert";
-import i18next from "i18next";
 
+import {sign_in} from "../utils/user";
 
-async function sign_in(email: string, password: string) {
-    let data = {
-        email: email, password: password
-    };
-
-
-    let response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Accept': 'application/json',
-            'Content-Language': i18next.language
-        },
-        body: JSON.stringify(data),
-    });
-    if (response.status == 200) {
-        let result = await response.json();
-        //localStorage.setItem('access_token', result.access_token);
-        Cookies.set('access_token', result.access_token);
-        Cookies.set('user_id', String(result.id));
-        return {auth:true,message:result.message};
-    } else {
-        let result = await response.json();
-        console.log("error: " + response.status);
-        return {auth:false,message:result.message};
-    }
-}
 
 export interface AuthFormProps {
-    afterAuth: () => any,
-    changeForm: (type : string) => any
+
+    changeForm: (type: string) => any
 }
 
 const AuthForm = (props: AuthFormProps) => {
@@ -103,7 +74,7 @@ const AuthForm = (props: AuthFormProps) => {
                 }
             </div>
 
-            <Link onClick={()=>props.changeForm('register')} underline>
+            <Link onClick={() => props.changeForm('register')} underline>
                 {t('AuthForm.linkCreateAccount')}
             </Link>
 
@@ -123,7 +94,7 @@ const AuthForm = (props: AuthFormProps) => {
                            onClick={async () => {
                                let auth = await sign_in(login, password);
                                if (auth.auth) {
-                                   props.afterAuth();
+
                                } else {
                                    showErrorAlert(auth.message);
                                }
@@ -136,7 +107,7 @@ const AuthForm = (props: AuthFormProps) => {
                 {t('AuthForm.ButtonLogin')}
             </DefaultButton>
             <br/>
-            <Link onClick={()=>props.changeForm('reset')} underline>
+            <Link onClick={() => props.changeForm('reset')} underline>
                 {t('AuthForm.linkResetPassword')}
             </Link>
 
