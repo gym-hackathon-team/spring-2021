@@ -51,6 +51,5 @@ Route::group(['prefix' => 'statistics'], function() {
 
 // TODO add 'middleware' => 'auth:api'
 Route::group(['prefix' => 'stream'], function() {
-    Route::get('/{id}', [StreamController::class, 'show'])->name('user.show');
-    Route::post('/', [StreamController::class, 'update'])->name('user.update');
+    Route::post('/', [StreamController::class, 'create'])->name('stream.create');
 });
