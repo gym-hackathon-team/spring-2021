@@ -2,7 +2,8 @@ const actions = [
     { type: 'login' },
     { type: 'logout' },
     {type:'check_auth'},
-    {type:'init'}
+    {type:'init'},
+    {type:'header'}
 
 ]
 
@@ -14,7 +15,13 @@ export const LoginAction=(token:string,user_id:number)=>
     }
 }
 
-
+export const HeaderAction=(header:string)=>
+    {
+        return {
+            type: 'header',
+            payload: {header: header}
+        }
+    }
 
 export const LogoutAction=
  {

@@ -7,14 +7,14 @@
     align-items: center
     .AuthForm
         @media (max-width: 768px)
-            width: 100vh
+            width: 100vw
             height: 100vh
 
-        padding: 5%
+        padding: 2%
         display: flex
         justify-content: center
-        width: 300px
-        height: 75%
+        width: 400px
+        height: 85%
         flex-direction: column
         & > *:nth-child(n+2)
             margin-top: 10px
@@ -61,6 +61,10 @@
 .user_text_field
     height: 4em
 
+.user1_text_field
+    height: 5em
+
+
 .alert_message
     min-height: 5em
     display: flex
@@ -68,13 +72,15 @@
     align-items: center
 
 .Footer
-    margin: 0 auto
-    position: absolute
-    bottom: 0
-    height: 3em
+    margin: 0
     display: flex
-    padding: 2%
+    width: 100%
+    padding: 0
+    flex-direction: row
+    justify-content: space-between
     align-items: center
+    background: #F9F9F9
+    height: 3em
 
 .UserInfo
     display: flex
@@ -88,8 +94,9 @@
             margin-top: 10px
 
 .NewHeader
-    margin: auto
+    margin: 0
     display: flex
+    width: 100%
     flex-direction: column
     justify-content: center
     background: #F9F9F9
@@ -100,3 +107,31 @@
         font-size: 12px
 
 
+.authorized_container
+
+    display: flex
+    height: 100vh
+    justify-content: center
+    align-items: center
+    flex-direction: column
+
+.container1
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    align-items: center
+    padding: 2%
+    height: 85%
+    width: 400px
+    @media (max-width: 768px)
+        width: 100vw
+        height: 100vh
+
+
+.user_page
+    margin: 0
+    width: 100%
+    height: 100%
+    display: flex
+    flex-direction: column
+    justify-content: flex-start
