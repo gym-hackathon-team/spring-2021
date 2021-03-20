@@ -11,32 +11,7 @@ import i18next from "i18next";
 import {connect, useDispatch, useStore} from 'react-redux'
 
 
-async function checkAuth() {
 
-
-    const token = Cookies.get('access_token');
-    const user_id=Cookies.get('user_id');
-    if (token == null || user_id==null) {
-        return false;
-    }
-    let response = await fetch(`/api/user/${user_id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Authorization': `Bearer ${token}`,
-            'Accept' : 'application/json',
-            'Content-Language': i18next.language
-
-        },
-
-    });
-    if (!response.ok)
-    {
-        Cookies.remove('access_token');
-        Cookies.remove('user_id');
-    }
-    return response.ok;
-}
 
 interface AppProps
 {
@@ -52,12 +27,12 @@ const App = (props:AppProps) => {
                         <Route path="/" exact>
                             {props.state.authorized ?
                                 <Redirect to={'/dashboard'}/> :
-                                <Auth auth={false} afterAuth={() => true}/>
+                                <Auth  />
                             }
                         </Route>
                         <Route path="/dashboard" exact>
                             {props.state.authorized ?
-                                <Dashboard afterLogOut={() => true} auth={true}/> :
+                                <Dashboard/> :
                                 <Redirect to={'/'}/>
                             }
                         </Route>
