@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {DefaultButton, DefaultEffects, TextField} from "@fluentui/react";
 import {getUserInfo, UserInfoUpdate} from "../utils/user";
-
+import i18n from "../locales/i18n";
 /*
 bio: null
 birth_day: null
@@ -61,41 +61,32 @@ interface UserState {
     id: any
     name: any
     sex: any
-    updated_at: any
+    updated_at: any,
+    password: string | undefined,
+    confirm_password: string | undefined
 
 }
 
 class UserPage extends React.Component<{}, UserState> {
 
+
     componentDidMount() {
         getUserInfo().then(value => {
-            this.setState(value.result);
+            this.setState({...value.result, password: '', confirm_password: ''});
         });
     }
 
     render() {
+        const getPasswordErrorMessage = (value: string): string => {
+
+            return value.length >= 6 && value.length <= 20 || value === '' ? '' : i18n.t('AuthForm.incorrectPassword');
+        };
         return <div style={{boxShadow: DefaultEffects.elevation8}} className={'UserInfo'}>
             {
                 this.state &&
                 <>
-                    <TextField label="bio" value={this.state.bio == null ? '' : this.state.bio}
-                               onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => this.setState({
-                                   ...this.state,
-                                   bio: newValue
-                               })}/>
 
-                    <TextField label="birth_day" multiline
-                               value={this.state.birth_day == null ? '' : new Date(this.state.birth_day).toString()}
-                               onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => this.setState({
-                                   ...this.state,
-                                   birth_day: newValue
-                               })}/>
-                    <TextField label="created_at" multiline
-                               value={this.state.created_at == null ? '' : new Date(this.state.created_at).toString()}
-                               readOnly/>
-                    <TextField label="deleted_at" multiline
-                               value={this.state.deleted_at == null ? '' : new Date(this.state.deleted_at).toString()}
-                               readOnly/>
+
                     <TextField label="email" value={this.state.email == null ? '' : this.state.email}
                                onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => this.setState({
                                    ...this.state,
@@ -106,18 +97,43 @@ class UserPage extends React.Component<{}, UserState> {
                                    ...this.state,
                                    name: newValue
                                })}/>
+                    <TextField label="password" type={'password'} value={this.state.password} onGetErrorMessage={getPasswordErrorMessage}
+                               onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+                                   if (String(newValue).length <= 20) {
+                                       this.setState({
+                                           ...this.state,
+                                           password: newValue
+                                       })
+                                   }
+                               }
+                               }/>
 
-                    <TextField label="sex" value={this.state.sex == null ? '' : this.state.sex}
-                               onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => this.setState({
-                                   ...this.state,
-                                   sex: newValue
-                               })}/>
-                    <DefaultButton onClick={() => {
-                        UserInfoUpdate(this.state).then(value => {
-                            console.log(value)
-                        });
+                    <TextField label="confirm password" type={'password'} value={this.state.confirm_password} onGetErrorMessage={getPasswordErrorMessage}
+                               onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+                                   if (String(newValue).length <= 20) {
+                                       this.setState({
+                                           ...this.state,
+                                           confirm_password: newValue
+                                       })
+                                   }
+                               }}/>
 
-                    }}>UPDATE</DefaultButton>
+
+                    <DefaultButton
+                        disabled={String(this.state.password).length > 0 && String(this.state.password).length < 6 || this.state.password !== this.state.confirm_password}
+                        onClick={() => {
+
+                            let updateData = this.state;
+                            if (String(this.state.password).length >= 6 && String(this.state.password).length <= 20 && this.state.password === this.state.confirm_password) {
+                                updateData = {...updateData, password: this.state.password};
+                            }
+                            console.log(updateData);
+                            UserInfoUpdate(updateData).then(value => {
+                                console.log(value);
+                                this.setState({...this.state, password: '', confirm_password: ""});
+                            });
+
+                        }}>UPDATE</DefaultButton>
                 </>
             }
 
