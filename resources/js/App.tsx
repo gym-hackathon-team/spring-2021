@@ -11,6 +11,7 @@ import i18next from "i18next";
 import {connect, useDispatch, useStore} from 'react-redux'
 import UserPage from "./pages/UserPage";
 import Header from "./components/Header";
+import NewHeader from "./components/NewHeader";
 
 
 
@@ -28,7 +29,10 @@ const App = (props:AppProps) => {
                 <BrowserRouter>
                     {
                         props.state.authorized &&
+                            <>
                             <Header/>
+                                <NewHeader stream={'Stream#23512'}/>
+                            </>
                     }
 
                     <Switch>
