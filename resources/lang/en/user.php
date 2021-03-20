@@ -7,4 +7,7 @@ return [
     'update' => [
         'failed' => 'User updating error.',
     ],
+    'streams' => [
+        'failed' => 'Streams not found'
+    ]
 ];

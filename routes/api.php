@@ -44,13 +44,13 @@ Route::group(['prefix' => 'user'], function() {
 });
 
 // TODO add 'middleware' => 'auth:api'
-Route::group(['prefix' => 'stream'], function() {
-    Route::get('/{id}', [StreamController::class, 'show'])->name('user.show');
-    Route::post('/', [StreamController::class, 'update'])->name('user.update');
-});
-
-// TODO add 'middleware' => 'auth:api'
 Route::group(['prefix' => 'statistics'], function() {
     Route::get('/user/{user_id}', [StatisticsController::class, 'user'])->name('statistics.user');
     Route::get('/stream/{stream_id}', [StatisticsController::class, 'stream'])->name('statistics.stream');
+});
+
+// TODO add 'middleware' => 'auth:api'
+Route::group(['prefix' => 'stream'], function() {
+    Route::get('/{id}', [StreamController::class, 'show'])->name('user.show');
+    Route::post('/', [StreamController::class, 'update'])->name('user.update');
 });

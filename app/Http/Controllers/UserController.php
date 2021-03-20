@@ -47,7 +47,25 @@ class UserController extends Controller
         }
     }
 
-    public function streams() {
+    /**
+     * @param $id
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     *
+     */
+    public function streams($id) {
+        $user = User::find($id);
 
+        if ( ! $user) {
+            return response(['message' => __('user.show.failed')], 404);
+        }
+
+        $streams = $user->streams;
+
+        if ($streams) {
+            return response($streams);
+        } else {
+            return response(['message' => __('user.streams.failed')], 400);
+        }
     }
 }
