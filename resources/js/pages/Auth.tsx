@@ -4,10 +4,12 @@ import {NavLink, Redirect} from "react-router-dom";
 import RegisterForm from "../components/RegisterForm";
 import PasswordResetForm from "../components/PasswordResetForm";
 import {DefaultButton, DefaultEffects} from '@fluentui/react'
+import {useTranslation} from "react-i18next";
 
 
 const Auth = () => {
     const [type, setType] = useState('initial');
+    const {t, i18n} = useTranslation('common');
     const changeForm = (type: string) => {
         setType(type);
     }
@@ -19,14 +21,14 @@ const Auth = () => {
                 type === 'initial' &&
                 <>
                     <div style={{boxShadow: DefaultEffects.elevation8}} className={'AuthForm'}>
-                        <h1 className={'main_header'}>Welcome to the</h1>
-                        <h1 className={'head1'}>LiveCommerce</h1>
-                        <p className={'p_1'}>Log in to create stream</p>
+                        <h1 className={'main_header'}>{t('AuthForm.firstHeader')}</h1>
+                        <h1 className={'head1'}>{t('AuthForm.secondHeader')}</h1>
+                        <p className={'p_1'}>{t('AuthForm.label1')}</p>
                         <div className={'center_block'}>
-                        <DefaultButton style={{width:'100%',background:"#16B5E8"}} primary onClick={() => setType('login')}>Sign In</DefaultButton>
+                        <DefaultButton style={{width:'100%',background:"#16B5E8"}} primary onClick={() => setType('login')}>{t('AuthForm.ButtonLogin')}</DefaultButton>
                         </div>
                         <div className={'center_block'} >
-                        <DefaultButton style={{width:'100%',background:"#16B5E8"}} primary onClick={() => setType('register')}>Sign Up</DefaultButton>
+                        <DefaultButton style={{width:'100%',background:"#16B5E8"}} primary onClick={() => setType('register')}>{t('AuthForm.ButtonRegistration')}</DefaultButton>
                         </div>
                     </div>
                 </>

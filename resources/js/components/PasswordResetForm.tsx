@@ -96,10 +96,9 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
             {state === "input_email" &&
             <>
 
-                <h1 className={'main_header'}>Reset password</h1>
+                <h1 className={'main_header'}>{t('AuthForm.label4')}</h1>
 
-                <p className={'p_1'}>Enter the email associated with your account and we’ll send an email with instructions to reset your password
-
+                <p className={'p_1'}>{t('AuthForm.label5')}
                 </p>
 
                 <div className={'auth_text_field'} style={{marginBottom:'2em'}}>
@@ -136,10 +135,9 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
             {state === "input_token" &&
             <>
 
-                <h1 className={'main_header'}>Check your mail</h1>
+                <h1 className={'main_header'}>{t('AuthForm.label6')}</h1>
 
-                <p className={'p_1'}>We have sent a password recover instructions to your email. Did not receive the email? Check your spam filter.
-                </p>
+                <p className={'p_1'}>{t('AuthForm.label7')}</p>
 
                 <div className={'auth_text_field'} style={{marginBottom:'2em'}}>
                     <TextField style={{width: "100%"}} label={t('AuthForm.InputToken')}
@@ -175,9 +173,9 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
 
             {state === "input_password" &&
             <>
-                <h1 className={'main_header'}>Create new password</h1>
+                <h1 className={'main_header'}>{t('AuthForm.label8')}</h1>
 
-                <p className={'p_1'}>Your new password must be different from previous used passwords</p>
+                <p className={'p_1'}>{t('AuthForm.label9')}</p>
 
                 <div className={'auth_text_field'}>
                     <TextField style={{width: "100%"}} label={t('AuthForm.textFieldPassword')}
@@ -194,7 +192,7 @@ export const PasswordResetForm = (props: PasswordResetForm) => {
                                onChange={onChangePasswordConfirm}/>
                 </div>
 
-                <p className={'p_1'}>Both passwords must match.</p>
+                <p className={'p_1'}>{t('AuthForm.label10')}</p>
 
                 <DefaultButton
                     style={{width:'100%',background:"#16B5E8"}}

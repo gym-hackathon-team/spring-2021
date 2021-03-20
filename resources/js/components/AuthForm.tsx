@@ -67,11 +67,11 @@ const AuthForm = (props: AuthFormProps) => {
     return (
 
         <div style={{boxShadow: DefaultEffects.elevation8}} className={'AuthForm'}>
-            <h1 className={'main_header'}>Sign In</h1>
+            <h1 className={'main_header'}>{t('AuthForm.ButtonLogin')}</h1>
 
 
-            <p className={'p_1'}>Dont’t have an account? <Link onClick={() => props.changeForm('register')} underline>
-                Sign up
+            <p className={'p_1'}>{t('AuthForm.label2')}<Link onClick={() => props.changeForm('register')} underline>
+                {t('AuthForm.ButtonRegistration')}
             </Link>
             </p>
 
@@ -88,9 +88,7 @@ const AuthForm = (props: AuthFormProps) => {
                            deferredValidationTime={500}
                            onChange={onChangePassword}/>
             </div>
-            <p className={'p_1'}><Link onClick={() => props.changeForm('reset')} underline>Forgot your password?
-
-
+            <p className={'p_1'}><Link onClick={() => props.changeForm('reset')} underline>{t('AuthForm.linkResetPassword')}
             </Link>
             </p>
             <DefaultButton

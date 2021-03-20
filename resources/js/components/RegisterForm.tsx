@@ -89,10 +89,10 @@ const RegisterForm = (props: RegisterFormProps) => {
 
 
 
-            <h1 className={'main_header'}>Sign Up</h1>
+            <h1 className={'main_header'}>{t('AuthForm.ButtonRegistration')}</h1>
 
-            <p className={'p_1'}>Already have an account? <Link onClick={() => props.changeForm('login')} underline>
-                Sign in
+            <p className={'p_1'}> {t('AuthForm.label3')}<Link onClick={() => props.changeForm('login')} underline>
+                {t('AuthForm.ButtonLogin')}
             </Link>
             </p>
 
