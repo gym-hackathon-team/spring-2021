@@ -17,10 +17,15 @@ class CreateStreamProductsTable extends Migration
             $table->id();
 
             $table->bigInteger('stream_id');
+            $table->string('parent_sku')->nullable();
 
-            $table->string('name');
-            $table->float('price');
             $table->string('sku');
+            $table->string('name');
+            $table->string('image');
+            $table->string('url');
+
+            $table->float('price')->nullable();
+            $table->string('currency')->nullable();
 
             $table->timestamps();
         });

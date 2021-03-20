@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
@@ -41,6 +42,10 @@ class AuthController extends Controller
 
         if ($user) {
             event(new Registered($user));
+
+            /*Http::post(env('STATISTICS_SERVICE') . '/user/', [
+                'user_id' => $user->id,
+            ]);*/
 
             return response($user, 201);
         } else {
