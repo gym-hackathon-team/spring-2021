@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\StreamCommentsController;
 use App\Http\Controllers\StreamController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
@@ -36,20 +37,24 @@ Route::group(['prefix' => 'password', 'middleware' => 'guest'], function() {
     Route::post('/reset', [PasswordController::class, 'update'])->name('password.update');
 });
 
-// TODO add 'middleware' => 'auth:api'
-Route::group(['prefix' => 'user'], function() {
+Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function() {
     Route::get('/{id}', [UserController::class, 'show'])->name('user.show');
     Route::get('/{id}/streams', [UserController::class, 'streams'])->name('user.streams');
     Route::post('/', [UserController::class, 'update'])->name('user.update');
 });
 
-// TODO add 'middleware' => 'auth:api'
-Route::group(['prefix' => 'statistics'], function() {
+Route::group(['prefix' => 'statistics', 'auth:api'], function() {
     Route::get('/user/{user_id}', [StatisticsController::class, 'user'])->name('statistics.user');
     Route::get('/stream/{stream_id}', [StatisticsController::class, 'stream'])->name('statistics.stream');
 });
 
-// TODO add 'middleware' => 'auth:api'
+// TODO add 'middleware' => 'auth:api' except stream page
 Route::group(['prefix' => 'stream'], function() {
     Route::post('/', [StreamController::class, 'create'])->name('stream.create');
+    Route::get('/{id}', [StreamController::class, 'show'])->name('stream.show');
+    Route::post('/{id}', [StreamController::class, 'update'])->name('stream.update');
+    Route::post('/{id}/end', [StreamController::class, 'end'])->name('stream.end');
+
+    Route::get('/{id}/comments', [StreamCommentsController::class, 'stream.list']);
+    Route::post('/{id}/comments', [StreamCommentsController::class, 'stream.create']);
 });

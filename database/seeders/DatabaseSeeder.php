@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Stream;
 use App\Models\StreamComment;
 use App\Models\StreamProduct;
+use App\Models\StreamProductParametr;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -17,9 +18,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //User::factory(10)->create();
-        //Stream::factory(20)->create();
-        //StreamProduct::factory(50)->create();
-        //StreamComment::factory(150)->create();
+        User::factory(10)->create();
+        Stream::factory(20)->create();
+        StreamProduct::factory(50)->create();
+        StreamProductParametr::factory(50)->create();
+        StreamComment::factory(150)->create();
     }
 }

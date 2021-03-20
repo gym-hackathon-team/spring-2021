@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Stream\StreamCommentRequest;
 use App\Http\Requests\Stream\StreamCreateRequest;
+use App\Http\Requests\Stream\StreamUpdateRequest;
 use App\Models\Stream;
+use App\Models\StreamComment;
 use App\Models\StreamProduct;
 use App\Models\StreamProductParametr;
 use Illuminate\Support\Facades\Auth;
@@ -11,20 +14,39 @@ use Illuminate\Support\Facades\Auth;
 class StreamController extends Controller
 {
     /**
+     * @param $id
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $stream = Stream::find($id);
+
+        if ($stream) {
+            return response($stream);
+        } else {
+            return response(['message' => __('stream.show.failed')], 404);
+        }
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create(StreamCreateRequest $request)
     {
+        $stream_data = $this->XMLtoJSON($request->file('products')->path());
+
         //TODO Uncomment this
         //$user = Auth::user();
         //$data['user_id'] = $user->id;
+        $data['user_id'] = 1; // TODO Delete this
 
-        $data['user_id'] = 1;
-        $data['name']    = $request->input('name');
+        $data['name']    = $stream_data['shop']['name'];
+        $data['company'] = $stream_data['shop']['company'];
+        $data['url']     = $stream_data['shop']['url'];
         $data['icon']    = $request->input('icon');
-        $stream_data     = $this->XMLtoJSON($request->file('products')->path());
 
         $stream = Stream::create($data);
 
@@ -41,17 +63,44 @@ class StreamController extends Controller
                         ));
                     }
                 }
-                $stream['products'][]   = $product;
-                //$stream['products'][]   = $product_data;
+                $stream['products'][] = $product;
             }
 
-            //return response([$stream_data]);
             return response($stream, 201);
         } else {
-            return response(['message' => __('auth.register.failed')], 400);
+            return response(['message' => __('stream.create.failed')], 400);
         }
     }
 
+    /**
+     * @param $id
+     * @param  StreamCreateRequest  $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function update($id, StreamUpdateRequest $request)
+    {
+        $stream = Stream::find($id);
+
+        if ( ! $stream) {
+            return response(['message' => __('stream.update.not_found')], 404);
+        }
+
+        $data = $request->all();
+        $result = $stream->fill($data)->save();
+
+        if ($result) {
+            return response($stream);
+        } else {
+            return response(['message' => __('user.update.failed')], 400);
+        }
+    }
+
+    /**
+     * @param $pathToXML
+     *
+     * @return mixed
+     */
     private function XMLtoJSON($pathToXML)
     {
         $xmlString = file_get_contents($pathToXML);
@@ -61,6 +110,12 @@ class StreamController extends Controller
         return json_decode($json, true);
     }
 
+    /**
+     * @param $stream_id
+     * @param $offer
+     *
+     * @return array
+     */
     private function parseProduct($stream_id, $offer)
     {
         $product = [];

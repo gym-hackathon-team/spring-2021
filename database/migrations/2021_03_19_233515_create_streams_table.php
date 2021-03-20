@@ -19,7 +19,10 @@ class CreateStreamsTable extends Migration
             $table->bigInteger('user_id');
 
             $table->string('name');
+            $table->string('company');
+            $table->string('url');
             $table->string('icon');
+
             $table->boolean('live')->default(true);
             $table->bigInteger('watchers')->default(0);
 

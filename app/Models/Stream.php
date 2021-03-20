@@ -15,9 +15,11 @@ class Stream extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'icon',
         'user_id',
+        'name',
+        'company',
+        'url',
+        'icon',
     ];
 
     /**
