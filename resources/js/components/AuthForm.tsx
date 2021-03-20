@@ -67,30 +67,37 @@ const AuthForm = (props: AuthFormProps) => {
     return (
 
         <div style={{boxShadow: DefaultEffects.elevation8}} className={'AuthForm'}>
+            <h1 className={'main_header'}>Sign In</h1>
 
-            <div className={'alert_message'}>
-                {alert.message.length > 0 &&
-                <Alert type={alert.type} afterClose={afterAlertClose} message={alert.message}/>
-                }
-            </div>
 
-            <Link onClick={() => props.changeForm('register')} underline>
-                {t('AuthForm.linkCreateAccount')}
+            <p className={'p_1'}>Dont’t have an account? <Link onClick={() => props.changeForm('register')} underline>
+                Sign up
             </Link>
+            </p>
+
 
             <div className={'auth_text_field'}>
-                <TextField placeholder={t("AuthForm.textFieldEmail")} onGetErrorMessage={getLoginErrorMessage}
-                           deferredValidationTime={500} underlined value={login} onChange={onChangeLogin}/>
+                <TextField style={{width: "100%"}} label={t("AuthForm.textFieldEmail")}
+                           onGetErrorMessage={getLoginErrorMessage}
+                           deferredValidationTime={500} value={login} onChange={onChangeLogin}/>
             </div>
-            <div className={'auth_text_field'}>
-                <TextField placeholder={t("AuthForm.textFieldPassword")} onGetErrorMessage={getPasswordErrorMessage}
-                           underlined
+            <div className={'auth_text_field'} style={{marginBottom:'2em'}}>
+                <TextField style={{width: "100%"}} label={t("AuthForm.textFieldPassword")} onGetErrorMessage={getPasswordErrorMessage}
+
                            canRevealPassword type={'password'} value={password}
                            deferredValidationTime={500}
                            onChange={onChangePassword}/>
             </div>
+            <p className={'p_1'}><Link onClick={() => props.changeForm('reset')} underline>Forgot your password?
 
-            <DefaultButton disabled={!regEmail.test(login) || password.length < 6 || password.length > 20}
+
+            </Link>
+            </p>
+            <DefaultButton
+                style={{width:'100%',background:"#16B5E8"}}
+                primary
+                disabled={!regEmail.test(login) || password.length < 6 || password.length > 20}
+
                            onClick={async () => {
                                let auth = await sign_in(login, password);
                                if (auth.auth) {
@@ -106,11 +113,12 @@ const AuthForm = (props: AuthFormProps) => {
                            }>
                 {t('AuthForm.ButtonLogin')}
             </DefaultButton>
-            <br/>
-            <Link onClick={() => props.changeForm('reset')} underline>
-                {t('AuthForm.linkResetPassword')}
-            </Link>
 
+            <div className={'alert_message'}>
+                {alert.message.length > 0 &&
+                <Alert type={alert.type} afterClose={afterAlertClose} message={alert.message}/>
+                }
+            </div>
         </div>
 
     )

@@ -87,37 +87,43 @@ const RegisterForm = (props: RegisterFormProps) => {
 
         <div style={{boxShadow: DefaultEffects.elevation8}} className={'AuthForm'}>
 
-            <div className={'alert_message'}>
-                {alert.message.length > 0 &&
-                <Alert type={alert.type} afterClose={afterAlertClose} message={alert.message}/>
-                }
-            </div>
 
-            <Link onClick={() => props.changeForm('login')} underline>
-                {t('AuthForm.linkLogin')}
+
+            <h1 className={'main_header'}>Sign Up</h1>
+
+            <p className={'p_1'}>Already have an account? <Link onClick={() => props.changeForm('login')} underline>
+                Sign in
             </Link>
+            </p>
 
             <div className={'auth_text_field'}>
-                <TextField placeholder={t('AuthForm.textFieldName')} underlined value={name} onChange={onChangeName}/>
+                <TextField  style={{width: "100%"}} label={t('AuthForm.textFieldName')}  value={name} onChange={onChangeName}/>
             </div>
             <div className={'auth_text_field'}>
-                <TextField placeholder={t('AuthForm.textFieldEmail')} onGetErrorMessage={getLoginErrorMessage}
-                           deferredValidationTime={500} underlined value={login} onChange={onChangeLogin}/>
+                <TextField  style={{width: "100%"}} label={t('AuthForm.textFieldEmail')} onGetErrorMessage={getLoginErrorMessage}
+                           deferredValidationTime={500}  value={login} onChange={onChangeLogin}/>
             </div>
             <div className={'auth_text_field'}>
-                <TextField placeholder={t('AuthForm.textFieldPassword')}
+                <TextField label={t('AuthForm.textFieldPassword')}
+                           style={{width: "100%"}}
                            onGetErrorMessage={getPasswordErrorMessage}
                            deferredValidationTime={500}
-                           underlined canRevealPassword type={'password'} value={password} onChange={onChangePassword}/>
+                            canRevealPassword type={'password'} value={password} onChange={onChangePassword}/>
             </div>
-            <div className={'auth_text_field'}>
-                <TextField placeholder={t('AuthForm.textFieldConfirmPassword')}
+            <div style={{marginBottom:'2em'}} className={'auth_text_field'}>
+                <TextField label={t('AuthForm.textFieldConfirmPassword')}
                            onGetErrorMessage={getPasswordErrorMessage}
                            deferredValidationTime={500}
-                           underlined canRevealPassword type={'password'} value={passwordConfirm}
+                           style={{width: "100%"}}
+                            canRevealPassword type={'password'} value={passwordConfirm}
                            onChange={onChangePasswordConfirm}/>
             </div>
-            <DefaultButton onClick={async () => {
+            <DefaultButton
+                style={{width:'100%',background:"#16B5E8"}}
+                primary
+                onClick={async () => {
+
+
                 let reg: boolean = await register(login, password, name);
                 if (reg) {
                     showSuccessAlert(t('AuthForm.AlertSuccessRegistration'));
@@ -137,7 +143,11 @@ const RegisterForm = (props: RegisterFormProps) => {
                 {t('AuthForm.ButtonRegistration')}
             </DefaultButton>
 
-
+            <div className={'alert_message'}>
+                {alert.message.length > 0 &&
+                <Alert type={alert.type} afterClose={afterAlertClose} message={alert.message}/>
+                }
+            </div>
         </div>
 
     )
