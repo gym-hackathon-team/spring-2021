@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::any('{query}',
     function() { return view('app'); })
-     ->where('query', '.*');
+     ->where('query', '.*')->name('spa');

@@ -31,7 +31,7 @@ class VerificationController extends Controller
         $user->markEmailAsVerified();
         event(new Verified($user));
 
-        return redirect()->route('home');
+        return redirect()->route('spa');
     }
 
     public function notify(Request $request)
