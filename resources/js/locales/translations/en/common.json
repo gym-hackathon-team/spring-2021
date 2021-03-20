@@ -1,6 +1,20 @@
 {
 
         "AuthForm": {
+            "firstHeader": "Welcome to the",
+            "secondHeader": "LiveCommerce",
+            "label1": "Log in to create stream",
+            "label2": "Dont’t have an account?",
+            "label3" : "Already have an account?",
+            "label4": "Reset password",
+            "label5": "Enter the email associated with your account and we’ll send an email with instructions to reset your password",
+            "label6": "Check your mail",
+            "label7": "We have sent a password recover instructions to your email. Did not receive the email? Check your spam filter",
+            "label8": "Create new password",
+            "label9": "Your new password must be different from previous used passwords",
+            "label10": "Both passwords must match.",
+
+
             "errorMes": "Error!",
             "incorrectEmail": "Incorrect email !",
             "incorrectPassword": "Password must be between 6 and 20 characters !",
@@ -11,11 +25,11 @@
             "AlertErrorAuth": "Authorization failed!",
             "AlertSuccessRegistration": "Account created !",
             "AlertFailedRegistration": "Registration failed !",
-            "ButtonLogin": "LOGIN",
-            "ButtonRegistration": "CREATE ACCOUNT",
+            "ButtonLogin": "Sign In",
+            "ButtonRegistration": "Sign Up",
             "linkCreateAccount": "Create account",
             "linkLogin": "Login",
-            "linkResetPassword": "Forgot password?",
+            "linkResetPassword": "Forgot your password?",
             "ResetPasswordLabel1": "Input your email",
             "ResetPasswordSendEmail": "NEXT",
             "ErrorEmail": "Error with sending email or email incorrect !",

@@ -2,24 +2,50 @@
 
 .AuthFormWrapper
     display: flex
-    height: 96vh
+    height: 100vh
     justify-content: center
     align-items: center
     .AuthForm
+        @media (max-width: 768px)
+            width: 100vh
+            height: 100vh
+
         padding: 5%
+        display: flex
+        justify-content: center
         width: 300px
+        height: 75%
+        flex-direction: column
         & > *:nth-child(n+2)
             margin-top: 10px
         .WithoutAuth
             display: block
 
-
+.p_1
+    color: #888888
+    font-family: "Segoe UI"
+    font-style: normal
+    font-weight: normal
+.main_header
+    font-family: "Segoe UI"
+    margin: 0 !important
+    font-weight: normal
+.head1
+        font-family: "Segoe UI"
+        font-style: italic
+        color: #16B5E8
+        margin: 0 !important
+        font-weight: normal
 .Nav
     display: flex
     justify-content: space-between
     padding: 2% 2%
     margin: 1% auto
     align-items: center
+
+.center_block
+    display: flex
+    justify-content: center
 
 
 .header
@@ -30,13 +56,16 @@
     display: flex
     justify-content: center
 .auth_text_field
-    height: 3em
+    height: 4em
 
 .user_text_field
     height: 4em
 
 .alert_message
-    min-height: 2em
+    min-height: 5em
+    display: flex
+    justify-content: center
+    align-items: center
 
 .Footer
     margin: 0 auto
@@ -57,3 +86,17 @@
     width: 300px
     & > *:nth-child(n+2)
             margin-top: 10px
+
+.NewHeader
+    margin: auto
+    display: flex
+    flex-direction: column
+    justify-content: center
+    background: #F9F9F9
+    height: 3em
+    p
+        text-align: center
+        font-family: "Segoe UI"
+        font-size: 12px
+
+
