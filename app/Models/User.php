@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\CodeResetPasswordNotification;
+use App\Notifications\VerifyEmailQueued;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -61,6 +62,15 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function hasVerifiedEmail()
     {
         return $this->email_verified;
+    }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification() {
+        $this->notify(new VerifyEmailQueued);
     }
 
     /**
