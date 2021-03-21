@@ -15,5 +15,19 @@
     <body>
         <div id="root"></div>
         <script src="{{ asset('js/index.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.js"></script>
+
+        <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+        <script>
+
+            // Enable pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+
+            let pusher = new Pusher('3ce932937e98523ef4e4', {
+                cluster: 'eu'
+            });
+
+
+        </script>
     </body>
 </html>

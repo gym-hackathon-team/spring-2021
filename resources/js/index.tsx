@@ -8,6 +8,7 @@ import {checkUserAuth, readUserData, setUserData} from "./utils/user";
 import {userAuthReducer} from "./reducers/user";
 import {Provider} from "react-redux";
 import {InitAction} from "./actions/user";
+import Echo from "laravel-echo"
 
 initializeIcons();
 
@@ -33,6 +34,10 @@ if (userData.token === '' || userData.id == 0) {
 
     })
 }
+
+
+
+
 
 
 // TODO Disable StrictMode

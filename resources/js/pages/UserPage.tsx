@@ -35,7 +35,7 @@ class UserPage extends React.Component<UserPageProps, UserState> {
     }
 
     componentDidMount() {
-        this.props.dispatch(HeaderAction('History'));
+        this.props.dispatch(HeaderAction('Account'));
         getUserInfo().then(value => {
             this.setState({...value.result, password: '', confirm_password: '', alert: {message:'',type:'default'}});
         });
@@ -96,7 +96,7 @@ class UserPage extends React.Component<UserPageProps, UserState> {
                                    })}/>
                     </div>
                     <div className={'user1_text_field'}>
-                        <TextField  placeholder={'*****'} label={this.props.t("AuthForm.textFieldPassword")} type={'password'}
+                        <TextField canRevealPassword placeholder={'*****'} label={this.props.t("AuthForm.textFieldPassword")} type={'password'}
                                    value={this.state.password} onGetErrorMessage={getPasswordErrorMessage}
                                    onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
                                        if (String(newValue).length <= 20) {
@@ -109,7 +109,7 @@ class UserPage extends React.Component<UserPageProps, UserState> {
                                    }/>
                     </div>
                     <div className={'user1_text_field'}>
-                        <TextField  placeholder={'*****'} label={this.props.t('AuthForm.textFieldConfirmPassword')} type={'password'}
+                        <TextField canRevealPassword  placeholder={'*****'} label={this.props.t('AuthForm.textFieldConfirmPassword')} type={'password'}
                                    value={this.state.confirm_password} onGetErrorMessage={getPasswordErrorMessage}
                                    onChange={(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
                                        if (String(newValue).length <= 20) {
@@ -130,7 +130,7 @@ class UserPage extends React.Component<UserPageProps, UserState> {
                             let updateData = {id: this.state.id, name: this.state.name, email: this.state.email};
                             if (this.state.password.length >= 6 && this.state.password.length <= 20 && this.state.password === this.state.confirm_password) {
                                 // @ts-ignore
-                                updateData = {...updateData, password: this.state.password};
+                                updateData = {...updateData, password: this.state.password,password_confirmation:this.state.confirm_password};
                             }
                             console.log(updateData);
 

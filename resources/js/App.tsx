@@ -14,13 +14,14 @@ import Header from "./components/Header";
 import NewHeader from "./components/NewHeader";
 import {DefaultEffects} from "@fluentui/react";
 import History from './pages/History'
+import {Stream,StreamID} from "./pages/Stream";
 
 interface AppProps {
     state: any,
     dispatch: any
 }
 
-const App = (props: AppProps) => {
+export const App = (props: AppProps) => {
     const {t, i18n} = useTranslation('common');
 
     return (<>
@@ -66,12 +67,21 @@ const App = (props: AppProps) => {
                             }
                         </Route>
 
-                        <Route path="/stream" exact>
+
+                        <Route path="/stream"  exact>
                             {props.state.authorized ?
-                                <div>Stream</div> :
+                                <Stream id={'none'} state={props.state} dispatch={props.dispatch}/> :
                                 <Redirect to={'/'}/>
                             }
                         </Route>
+
+                        <Route path="/stream/:id"  exact>
+                            {props.state.authorized ?
+                                <StreamID state={props.state} dispatch={props.dispatch}/> :
+                                <Redirect to={'/'}/>
+                            }
+                        </Route>
+
                     </Switch>
                     {props.state.authorized &&
 

@@ -1,9 +1,8 @@
 import * as Cookies from "js-cookie";
 import i18next from "i18next";
 import {store} from '../index'
-import {LoginAction, LogoutAction} from "../actions/user";
-
-
+import {LoginAction, LogoutAction, startStreamAction} from "../actions/user";
+const io = require("socket.io-client");
 export function readUserData() {
     const token = Cookies.get('access_token');
     const user_id = Cookies.get('user_id');
@@ -257,4 +256,21 @@ export async function UserInfoUpdate(userInfo:any) {
     return response.ok;
 
 
+}
+
+
+export  const  StartStream=(id:number)=>
+{
+    const socket = io("ws://194.67.78.79/");
+    io.emit("start",id);
+    io.once('started',()=>{
+
+        store.dispatch(startStreamAction(id,socket));
+
+    })
+
+    io.once('start',(event:any)=>{
+
+        console.log(event);
+    })
 }
