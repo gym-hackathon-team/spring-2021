@@ -2,15 +2,12 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class SentMessage implements ShouldBroadcast
+class CommentSent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -36,11 +33,17 @@ class SentMessage implements ShouldBroadcast
 
     /**
      * Get the channels the event should broadcast on.
-     *
-     * @return string[]
      */
     public function broadcastOn()
     {
         return ['stream-'.$this->stream_id];
+    }
+
+    /**
+     * The event's broadcast name.
+     */
+    public function broadcastAs()
+    {
+        return 'comment.sent';
     }
 }

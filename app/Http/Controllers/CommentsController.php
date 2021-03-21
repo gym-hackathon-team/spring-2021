@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SentMessage;
-use App\Http\Requests\Stream\StreamCommentRequest;
+use App\Events\CommentSent;
+use App\Http\Requests\Comment\CommentRequest;
 use App\Models\Stream;
 use App\Models\Comment;
-use Illuminate\Http\Request;
 
 class CommentsController extends Controller
 {
@@ -34,11 +33,11 @@ class CommentsController extends Controller
 
     /**
      * @param $id
-     * @param  StreamCommentRequest  $request
+     * @param  CommentRequest  $request
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function create($id, StreamCommentRequest $request)
+    public function create($id, CommentRequest $request)
     {
         $data['stream_id'] = $id;
         $data['name']      = $request->input('name');
@@ -47,7 +46,7 @@ class CommentsController extends Controller
         $comment = Comment::create($data);
 
         if ($comment) {
-            broadcast(new SentMessage($data['stream_id'], $data['name'], $data['text']))->toOthers();
+            event(new CommentSent($data['stream_id'], $data['name'], $data['text']));
 
             return response($comment);
         } else {
