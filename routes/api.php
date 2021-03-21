@@ -55,6 +55,6 @@ Route::group(['prefix' => 'stream'], function() {
     Route::post('/{id}', [StreamController::class, 'update'])->name('stream.update');
     Route::post('/{id}/end', [StreamController::class, 'end'])->name('stream.end');
 
-    Route::get('/{id}/comments', [CommentsController::class, 'stream.list']);
-    Route::post('/{id}/comments', [CommentsController::class, 'stream.create']);
+    Route::get('/{id}/comments', [CommentsController::class, 'list'])->name('stream.comments.list');
+    Route::post('/{id}/comments', [CommentsController::class, 'create'])->name('stream.comments.create');
 });
