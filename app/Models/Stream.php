@@ -27,7 +27,7 @@ class Stream extends Model
      */
     public function products()
     {
-        return $this->hasMany(StreamProduct::class, 'stream_id');
+        return $this->hasMany(Product::class, 'stream_id');
     }
 
     /**
@@ -35,6 +35,6 @@ class Stream extends Model
      */
     public function comments()
     {
-        return $this->hasMany(StreamComment::class, 'stream_id');
+        return $this->hasMany(Comment::class, 'stream_id');
     }
 }

@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Events\SentMessage;
 use App\Http\Requests\Stream\StreamCommentRequest;
 use App\Models\Stream;
-use App\Models\StreamComment;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
-class StreamCommentsController extends Controller
+class CommentsController extends Controller
 {
     /**
      * @param $id
@@ -44,7 +44,7 @@ class StreamCommentsController extends Controller
         $data['name']      = $request->input('name');
         $data['text']      = $request->input('text');
 
-        $comment = StreamComment::create($data);
+        $comment = Comment::create($data);
 
         if ($comment) {
             broadcast(new SentMessage($data['stream_id'], $data['name'], $data['text']))->toOthers();

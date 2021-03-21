@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Stream;
+namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StreamCommentRequest extends FormRequest
+class CommentRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
