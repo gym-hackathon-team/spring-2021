@@ -6,9 +6,9 @@ use App\Http\Requests\Stream\StreamCommentRequest;
 use App\Http\Requests\Stream\StreamCreateRequest;
 use App\Http\Requests\Stream\StreamUpdateRequest;
 use App\Models\Stream;
-use App\Models\StreamComment;
-use App\Models\StreamProduct;
-use App\Models\StreamProductParametr;
+use App\Models\Comment;
+use App\Models\Product;
+use App\Models\ProductParameter;
 use Illuminate\Support\Facades\Auth;
 
 class StreamController extends Controller
@@ -38,10 +38,9 @@ class StreamController extends Controller
     {
         $stream_data = $this->XMLtoJSON($request->file('products')->path());
 
-        //TODO Uncomment this
         //$user = Auth::user();
         //$data['user_id'] = $user->id;
-        $data['user_id'] = 1; // TODO Delete this
+        $data['user_id'] = 1;
 
         $data['name']    = $stream_data['shop']['name'];
         $data['company'] = $stream_data['shop']['company'];
@@ -51,22 +50,25 @@ class StreamController extends Controller
         $stream = Stream::create($data);
 
         if ($stream) {
+            $products = [];
             foreach ($stream_data['shop']['offers']['offer'] as $offer) {
-                $product_data = $this->parseProduct($stream->id, $offer);
-                $product      = StreamProduct::create($product_data)->toArray();
-                if (isset($product_data['params'])) {
-                    foreach ($product_data['params'] as $key => $value) {
-                        $product['params'][$key] = StreamProductParametr::create(array(
+                $product_info = $this->parseProduct($stream->id, $offer);
+                $product      = Product::create($product_info)->toArray();
+                if (isset($product_info['params'])) {
+                    foreach ($product_info['params'] as $key => $value) {
+                        $product['params'][$key] = ProductParameter::create(array(
                             'product_id' => $product['id'],
                             'key'        => $key,
                             'value'      => $value,
                         ));
                     }
                 }
-                $stream['products'][] = $product;
+                if ( ! isset($product['parent_sku'])) {
+                    $products[] = $product;
+                }
             }
 
-            return response($stream, 201);
+            return response(['stream' => $stream, 'products' => $products], 201);
         } else {
             return response(['message' => __('stream.create.failed')], 400);
         }
@@ -86,7 +88,7 @@ class StreamController extends Controller
             return response(['message' => __('stream.update.not_found')], 404);
         }
 
-        $data = $request->all();
+        $data   = $request->all();
         $result = $stream->fill($data)->save();
 
         if ($result) {
@@ -94,20 +96,6 @@ class StreamController extends Controller
         } else {
             return response(['message' => __('user.update.failed')], 400);
         }
-    }
-
-    /**
-     * @param $pathToXML
-     *
-     * @return mixed
-     */
-    private function XMLtoJSON($pathToXML)
-    {
-        $xmlString = file_get_contents($pathToXML);
-        $xmlObject = simplexml_load_string($xmlString);
-        $json      = json_encode($xmlObject);
-
-        return json_decode($json, true);
     }
 
     /**
@@ -141,5 +129,19 @@ class StreamController extends Controller
         }
 
         return $product;
+    }
+
+    /**
+     * @param $pathToXML
+     *
+     * @return mixed
+     */
+    private function XMLtoJSON($pathToXML)
+    {
+        $xmlString = file_get_contents($pathToXML);
+        $xmlObject = simplexml_load_string($xmlString);
+        $json      = json_encode($xmlObject);
+
+        return json_decode($json, true);
     }
 }

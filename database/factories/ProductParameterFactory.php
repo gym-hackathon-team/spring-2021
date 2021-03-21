@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\StreamProductParametr;
+use App\Models\ProductParameter;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class StreamProductParametrFactory extends Factory
+class ProductParameterFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = StreamProductParametr::class;
+    protected $model = ProductParameter::class;
 
     /**
      * Define the model's default state.

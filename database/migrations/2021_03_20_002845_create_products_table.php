@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStreamProductsTable extends Migration
+class CreateProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateStreamProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('stream_products', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
 
             $table->bigInteger('stream_id');
@@ -27,6 +27,7 @@ class CreateStreamProductsTable extends Migration
             $table->float('price')->nullable();
             $table->string('currency')->nullable();
 
+            // TODO Remove this
             $table->timestamps();
         });
     }
@@ -38,6 +39,6 @@ class CreateStreamProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stream_products');
+        Schema::dropIfExists('products');
     }
 }

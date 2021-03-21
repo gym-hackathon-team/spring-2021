@@ -3,7 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\StatisticsController;
-use App\Http\Controllers\StreamCommentsController;
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\StreamController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
@@ -55,6 +55,6 @@ Route::group(['prefix' => 'stream'], function() {
     Route::post('/{id}', [StreamController::class, 'update'])->name('stream.update');
     Route::post('/{id}/end', [StreamController::class, 'end'])->name('stream.end');
 
-    Route::get('/{id}/comments', [StreamCommentsController::class, 'stream.list']);
-    Route::post('/{id}/comments', [StreamCommentsController::class, 'stream.create']);
+    Route::get('/{id}/comments', [CommentsController::class, 'stream.list']);
+    Route::post('/{id}/comments', [CommentsController::class, 'stream.create']);
 });

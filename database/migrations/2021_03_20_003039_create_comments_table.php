@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStreamProductParametrsTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateStreamProductParametrsTable extends Migration
      */
     public function up()
     {
-        Schema::create('stream_product_parametrs', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('product_id');
+            $table->bigInteger('stream_id');
 
-            $table->string('key');
-            $table->string('value');
+            $table->string('name');
+            $table->string('text');
 
             $table->timestamps();
         });
@@ -32,6 +32,6 @@ class CreateStreamProductParametrsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stream_product_parametrs');
+        Schema::dropIfExists('comments');
     }
 }
