@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SentMessage;
 use App\Http\Requests\Stream\StreamCommentRequest;
 use App\Models\Stream;
 use App\Models\StreamComment;
@@ -46,6 +47,8 @@ class StreamCommentsController extends Controller
         $comment = StreamComment::create($data);
 
         if ($comment) {
+            broadcast(new SentMessage($data['stream_id'], $data['name'], $data['text']))->toOthers();
+
             return response($comment);
         } else {
             return response(['message' => __('comments.create.failed')], 404);
